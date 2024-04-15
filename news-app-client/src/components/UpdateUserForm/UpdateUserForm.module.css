@@ -1,0 +1,6 @@
+.container {
+    width: 300px;
+    height: 300px;
+    border: green solid 1px;
+    display: flex;
+}
