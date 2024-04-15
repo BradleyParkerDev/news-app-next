@@ -1,57 +1,70 @@
-// import dbConnect from '@/lib/dbConnect';
-import { mongooseConnect } from '@/lib/mongoose';
-import User from '@/lib/models/Users';
-import { validatePassword, generateUserTokens, getTokenExpiration } from '../../../../lib/server-utils/auth';
+const {validatePassword, generateUserTokens, getTokenExpiration} = require('../../../../lib/server-utils/auth')
+const { mongooseConnect } = require("@/lib/mongoose") ;
+const User =  require("@/lib/models/Users");
+const {NextResponse} = require('next/server')
 
-export  const POST = async (req,res) => {
-    if (req.method !== 'POST') {
-        console.log(req)
-        res.status(405).json({ success: false, message: 'Method Not Allowed' });
-        return;
-    }
+
+export const POST = async (req) =>{
+    const requestBody = await req.json()
 
     try {
-        await dbConnect();
-        const { emailAddress, password } = req.body;
-        const user = await User.findOne({ emailAddress });
 
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'Could not find user.' });
+        // User login data
+        const userLoginData = {
+            emailAddress: requestBody.emailAddress,
+            password: requestBody.password
+        }; 
+
+        // Connecting to MongoDB
+        await mongooseConnect();
+
+        // Finding user in database
+        const foundUser = await User.findOne({emailAddress: userLoginData.emailAddress});
+
+        // If user not found
+        if (!foundUser) {
+            return NextResponse.status(404).json({ success: false, message: 'Could not find user.' });
         }
 
-        const passwordValid = await validatePassword(password, user.password);
-
+        // Validate password
+        const passwordValid = await validatePassword(userLoginData.password, foundUser.password);
+        
+        // If password not valid
         if (!passwordValid) {
-            return res.status(401).json({ success: false, message: 'Password was incorrect.' });
-        }
+            return NextResponse.status(401).json({ success: false, message: 'Password was incorrect.' });
+        }  
 
-        const userData = {
+        // Generating user access and refresh tokens
+        const userDataForTokenGeneration = {
             date: Date(),
-            userId: user.id,
-            emailAddress: user.emailAddress
+            userId: foundUser.id,
+            emailAddress: foundUser.emailAddress
         };
 
-        const { accessToken, refreshToken } = generateUserTokens(userData);
+        const { accessToken, refreshToken } = generateUserTokens(userDataForTokenGeneration);
+
+
+        // Pushing new refresh token into foundUser, for refresh token rotation
         try {
-            user.refreshTokens.push(refreshToken)
-            await user.save()            
+            foundUser.refreshTokens.push(refreshToken)
+            await foundUser.save()            
         } catch (error) {
             console.log(error)
         }
-     
 
         const refreshTokenExpiration = getTokenExpiration(refreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
         const accessTokenExpiration = getTokenExpiration(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY)
   
-        // Respond with success message and any additional data
-        res.json({
+        // Respond with success message and token data
+        return NextResponse.json({
             success: true,
             message: 'User successfully logged in.',
             accessToken,
             refreshToken
-        });
+        });        
     } catch (error) {
-        console.error('Error during login:', error);
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        console.log(error)
     }
+
+
 }
