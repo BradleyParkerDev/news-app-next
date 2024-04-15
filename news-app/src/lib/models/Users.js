@@ -1,20 +1,19 @@
 const mongoose = require('mongoose');
-const {v4: uuidv4} = require('uuid');
-
+const { v4: uuidv4 } = require('uuid');
 
 const userSchema = new mongoose.Schema({
-    id:{type:String, default: uuidv4},
+    id: { type: String, default: uuidv4 },
     firstName: String,
     lastName: String,
-    emailAddress: String,
-    password: String,
+    emailAddress: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
     userImage: String,
     readLater: [],
     refreshTokens: [],
-    lastUpdated: { type: Date, default: Date.now } // Define lastUpdated as a Date type with default value
+    lastUpdated: { type: Date, default: Date.now }
 });
 
-
-const User = mongoose.model('users', userSchema);
+// Check if the model exists before compiling it
+const User = mongoose.models.users || mongoose.model('users', userSchema);
 
 module.exports = User;

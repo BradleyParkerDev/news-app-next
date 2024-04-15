@@ -8,13 +8,13 @@ mongoose.set('strictQuery', false);
 
 
 //Defines Database
-const mongoDB = process.env.ATLAS_URI;
+const mongoDB = process.env.MONGODB_URI;
 
 //Connects to mongoDb
 const mongooseConnect = async () => {
     
     try {
-        await mongoose.connect(mongoDB, {dbName:process.env.MONGO_DATABASE})
+        await mongoose.connect(mongoDB, {dbName:process.env.MONGODB_DATABASE_NAME})
     } catch (error) {
         throw error;
         
