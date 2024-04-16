@@ -4,9 +4,6 @@ module.exports = {
     // hashing
     generatePasswordHash: require('./hashing/generatePasswordHash'),
 
-    // middleware
-    verifyUserToken: require('./middleware/verifyUserToken'),
-
     // tokens
     checkUserRefreshTokens: require('./tokens/checkUserRefreshTokens'),
     generateUserTokens: require('./tokens/generateUserTokens'),

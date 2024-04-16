@@ -6,8 +6,8 @@ const generateUserTokens = (userData, oldRefreshTokenExp) => {
 
     
 
-    const accessTokenExp = Math.floor(Date.now() / 1000) + 15; // 15 seconds
-    // const accessTokenExp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 minutes
+    // const accessTokenExp = Math.floor(Date.now() / 1000) + 15; // 15 seconds
+    const accessTokenExp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 minutes
     // const accessTokenExp = Math.floor(Date.now() / 1000) + 60; // 1 minute
 
     // Calculate expiration time for the new refresh token
