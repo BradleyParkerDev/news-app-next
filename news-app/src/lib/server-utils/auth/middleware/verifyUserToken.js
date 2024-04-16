@@ -1,48 +1,53 @@
-const jwt = require('jsonwebtoken');
-// Middleware
+import { NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
 
-const verifyUserToken = (req, res, next) => {
+export async function middleware(req) {
     try {
-        const bearerToken = req.headers.authorization;
+        const bearerToken = req.headers.get('authorization');
         if (bearerToken) {
             const token = bearerToken.split(' ')[1];
-    
-            // Attempt to verify token with ACCESS_TOKEN_SECRET_KEY
+            let verified = false;
+            let decoded;
+
+            // Try verifying with ACCESS_TOKEN_SECRET_KEY
             try {
-                const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
-                req.decoded = decoded;
-                // console.log('Token verified with ACCESS_TOKEN_SECRET_KEY');
-                next();
-                return; // Exit function if verification successful
+                decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+                req.nextUrl.searchParams.set('decoded', JSON.stringify(decoded)); // Pass data to Next.js pages or API routes
+                verified = true;
             } catch (accessTokenError) {
                 console.error('Token verification failed with ACCESS_TOKEN_SECRET_KEY:', accessTokenError.message);
             }
-    
-            // Attempt to verify token with REFRESH_TOKEN_SECRET_KEY
-            try {
-                const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
-                req.decoded = decoded;
-                // console.log('Token verified with REFRESH_TOKEN_SECRET_KEY');
-                next();
-                return; // Exit function if verification successful
-            } catch (refreshTokenError) {
-                console.error('Token verification failed with REFRESH_TOKEN_SECRET_KEY:', refreshTokenError.message);
+
+            // If ACCESS_TOKEN verification fails, try with REFRESH_TOKEN_SECRET_KEY
+            if (!verified) {
+                try {
+                    decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET_KEY);
+                    req.nextUrl.searchParams.set('decoded', JSON.stringify(decoded)); // Pass data to Next.js pages or API routes
+                    verified = true;
+                } catch (refreshTokenError) {
+                    console.error('Token verification failed with REFRESH_TOKEN_SECRET_KEY:', refreshTokenError.message);
+                }
             }
-    
-            // If both verification attempts fail, return an error
-            throw {
-                status: 401,
-                message: 'Invalid Token'
-            };
+
+            if (!verified) {
+                throw new Error('Invalid Token');
+            }
+
+            return NextResponse.next();
         } else {
-            throw {
-                status: 401,
-                message: 'Missing Token'
-            };
+            throw new Error('Missing Token');
         }
     } catch (error) {
-        res.status(error.status || 401).json({ message: error.message });
+        return new NextResponse(JSON.stringify({ message: error.message }), {
+            status: 401,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
     }
-};
+}
 
-module.exports = verifyUserToken;
+// Configuration to apply this middleware only to specific paths
+export const config = {
+    matcher: ['/api/get-user', '/api/delete-user', '/api/update-user'],
+};

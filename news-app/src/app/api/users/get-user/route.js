@@ -1,8 +1,8 @@
 const {NextResponse, NextRequest} = require('next/server')
+const {verifyUserToken} = require('@/lib/server-utils/auth')
 
 
-
-const User = require('../../../../lib/models/Users')
+const User = require('@/lib/models/Users')
 export const GET = async (req) =>{
     try {
         const id = req.decoded.userData.userId

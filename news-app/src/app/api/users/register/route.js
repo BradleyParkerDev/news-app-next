@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const {generatePasswordHash} = require('../../../../lib/server-utils/auth')
+const {generatePasswordHash} = require('@/lib/server-utils/auth')
 const { mongooseConnect } = require("@/lib/mongoose") ;
 const User =  require("@/lib/models/Users");
 const {NextResponse} = require('next/server')

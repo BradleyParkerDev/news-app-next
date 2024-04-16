@@ -92,22 +92,22 @@ export const NewsProvider = ({ children }) => {
     const {business, entertainment, general, health, science, sports, technology } = categories;
     useEffect(() => {
 
-        const fetchData = async () => {
+        // const fetchData = async () => {
 
-            // Fetch Top Headlines
-            fetchNews(topHeadlines,dispatch)
+        //     // Fetch Top Headlines
+        //     fetchNews(topHeadlines,dispatch)
 
-            // Fetch news for each category
-            for (const category of Object.values(categories)) {
-                fetchNews(category, dispatch);
-            }
+        //     // Fetch news for each category
+        //     for (const category of Object.values(categories)) {
+        //         fetchNews(category, dispatch);
+        //     }
 
-        };
-        if(topHeadlines){
-            fetchData();            
-        }
+        // };
+        // if(topHeadlines){
+        //     fetchData();            
+        // }
 
-        console.log()
+        // console.log()
         
 
 

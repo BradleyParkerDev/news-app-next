@@ -1,4 +1,4 @@
-const {validatePassword, generateUserTokens, getTokenExpiration} = require('../../../../lib/server-utils/auth')
+const {validatePassword, generateUserTokens, getTokenExpiration} = require('@/lib/server-utils/auth')
 const { mongooseConnect } = require("@/lib/mongoose") ;
 const User =  require("@/lib/models/Users");
 const {NextResponse} = require('next/server')
