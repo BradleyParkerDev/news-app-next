@@ -5,7 +5,8 @@ const User = require('@server/models/Users')
 
 export const GET = async (request) =>{
 
-    const userDataJSON = request.headers.get('X-User-Data');
+    const userDataJSON = await request.headers.get('X-User-Data');
+    console.log('userDataJSON: ',userDataJSON)
     const {userData} = JSON.parse(userDataJSON);
     console.log('userData: ',userData);
 

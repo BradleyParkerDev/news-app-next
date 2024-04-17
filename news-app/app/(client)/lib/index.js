@@ -15,7 +15,7 @@ import  createNewsObject from './data/createNewsObject';
 import  uploadImage from './data/uploadImage';
 import  updateUserData from './data/updateUserData';
 import  deleteUser from './data/deleteUser';
-import cn from './ui/cn';
+import  cn from './ui/cn';
 
 // Export the functions
 export {

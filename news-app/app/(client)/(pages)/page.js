@@ -1,14 +1,8 @@
 "use client";
 import React, { useContext } from 'react';
-// import { useState, useEffect } from 'react'; // Assuming you will use useState and useEffect later
 import { NewsContext } from '@client/context/NewsContext';
-import { cn } from '@client/lib';
 
 
-// import GlimmerButton from '../../components/GlimmerButton/GlimmerButton';
-// import { Button } from '../../components/ui/button';
-// import { Card } from '../../components/ui/card';
-// import { Input } from '../../components/ui/input';
 const Home = (props) => {
     const { state: news } = useContext(NewsContext);
     const { topHeadlines, categories } = news;
