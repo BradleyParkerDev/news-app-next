@@ -1,9 +1,4 @@
 const { NextResponse } = require('next/server');
-const { jwtVerify } = require('jose');
-const { TextEncoder } = require('util'); // Import TextEncoder from util
-// import verifyUserToken from '@/lib/server-utils/auth/'
-// import verifyUserToken from '@/lib/server-utils/auth/tokens/verifyUserToken'
-
 const {verifyUserToken} = require('@/lib/server-utils/auth/tokens/verifyUserToken')
 
 export const middleware = async (request) => {
@@ -21,8 +16,13 @@ export const middleware = async (request) => {
             }
     
             console.log(`Token verified: `, userData);
+     
+            
+            const response = NextResponse.next();
+            response.headers.set('X-User-Data', JSON.stringify(userData));
 
-            return NextResponse.next();
+    
+            return response;
         } else {
             throw new Error('Missing Token');
         }
