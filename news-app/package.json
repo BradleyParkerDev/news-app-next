@@ -17,7 +17,6 @@
     "dotenv": "^16.4.5",
     "firebase": "^10.11.0",
     "jose": "^5.2.4",
-    "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.368.0",
     "mongoose": "^8.3.1",
