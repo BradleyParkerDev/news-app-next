@@ -13,11 +13,8 @@ export const DELETE = async (request) => {
                 headers: { 'Content-Type': 'application/json' }
             });
         }
-
         const {userData} = JSON.parse(userDataJSON);
-        console.log('delete: ',userData.userId)
         const userId = userData.userId;
-        console.log('Attempting to delete user with userId:', userId);
 
         await mongooseConnect();
         const response = await User.deleteOne({ id: userId }); // Ensure this is your custom user ID field
