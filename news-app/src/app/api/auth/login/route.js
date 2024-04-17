@@ -41,7 +41,7 @@ export const POST = async (req) =>{
             emailAddress: foundUser.emailAddress
         };
 
-        const { accessToken, refreshToken } = generateUserTokens(userDataForTokenGeneration);
+        const { accessToken, refreshToken } = await generateUserTokens(userDataForTokenGeneration);
 
 
         // Pushing new refresh token into foundUser, for refresh token rotation

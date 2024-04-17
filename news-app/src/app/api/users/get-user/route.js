@@ -4,9 +4,13 @@ const User = require('@/lib/models/Users')
 // const {verifyUserToken} = require('@/lib/server-utils/auth')
 
 
-export const GET = async () =>{
+export const GET = async (response) =>{
+    // console.log(response)
+    // console.log('hi')
+    
+    //  console.log(request)
     // try {
-        // const id = req.decoded.userData.userId
+        // const id = request.userData.userId
         // const foundUser = await User.findOne({id:id})
         // userData = {
         //     id: foundUser.id,

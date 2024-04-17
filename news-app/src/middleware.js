@@ -1,34 +1,27 @@
-// import { NextResponse } from "next/server";
-
-
-
-// export const middleware = async (request) =>{
-//     console.log('middleware!')
-
-//     console.log(request.method)
-//     console.log(request.url)
-
-//     const origin = request.headers.get('Authorization');
-//     console.log(origin);
-//     const response = NextResponse.next()
-//     return NextResponse.next()
-// }
-
-
 const { NextResponse } = require('next/server');
-const {jwt} = require('jsonwebtoken');
+const { jwtVerify } = require('jose');
+const { TextEncoder } = require('util'); // Import TextEncoder from util
+// import verifyUserToken from '@/lib/server-utils/auth/'
+// import verifyUserToken from '@/lib/server-utils/auth/tokens/verifyUserToken'
 
-export const middleware = async (request) =>{
+const {verifyUserToken} = require('@/lib/server-utils/auth/tokens/verifyUserToken')
+
+export const middleware = async (request) => {
+
     try {
-        
-        console.log('Middleware!')
+        console.log('Middleware!');
         const bearerToken = request.headers.get('Authorization');
         if (bearerToken) {
             const token = bearerToken.split(' ')[1];
-            let verified = false;
-            let decoded;
+            console.log(`Token: ${token}`);
+            const userData = await verifyUserToken(token);
+        
+            if (!userData) {
+                throw new Error('Invalid Token');
+            }
+    
+            console.log(`Token verified: `, userData);
 
-            console.log(` token: ${token}`)
             return NextResponse.next();
         } else {
             throw new Error('Missing Token');
@@ -36,6 +29,7 @@ export const middleware = async (request) =>{
     } catch (error) {
         return new NextResponse(JSON.stringify({ message: error.message }), {
             status: 401,
+            message: 'Missing Token',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -47,53 +41,3 @@ export const middleware = async (request) =>{
 export const config = {
     matcher: ['/api/users/get-user', '/api/users/delete-user', '/api/users/update-user'],
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // Define allowed origins based on the environment
-// const allowedOrigins = process.env.NODE_ENV === 'production'
-//     ? ['https://www.yoursite.com', 'https://yoursite.com']
-//     : ['http://localhost:3000'];
-
-// // Middleware to check origin of the requests
-// export function middleware(request) {
-//     const origin = request.headers.get('origin');
-//     console.log(origin);
-
-//     // If the origin is not allowed, return a 400 response
-//     if (origin && !allowedOrigins.includes(origin)) {
-//         return new NextResponse(null, {
-//             status: 400,
-//             statusText: "Bad Request",
-//             headers: {
-//                 'Content-Type': 'text/plain'
-//             }
-//         });
-//     }
-
-//     // Log information about the request
-//     console.log('Middleware!');
-//     console.log(request.method);
-//     console.log(request.url);
-
-//     // Proceed with the next middleware or to the resource
-//     return NextResponse.next();
-// }
-
-// // Configuration for the middleware
-// export const config = {
-//     matcher: '/api/:path*',
-// };

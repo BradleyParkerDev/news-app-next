@@ -1,5 +1,6 @@
 // Exports all auth utility functions
 
+
 module.exports = {
     // hashing
     generatePasswordHash: require('./hashing/generatePasswordHash'),
@@ -9,6 +10,7 @@ module.exports = {
     generateUserTokens: require('./tokens/generateUserTokens'),
     getTokenExpiration: require('./tokens/getTokenExpiration'),
     verifyRefreshToken: require('./tokens/verifyRefreshToken'),
+    verifyUserToken: require('./tokens/verifyUserToken'),
 
 
     // validation
