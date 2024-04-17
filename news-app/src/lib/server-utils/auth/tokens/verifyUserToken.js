@@ -1,7 +1,7 @@
 // Remove: const { TextEncoder } = require('util');
 const { jwtVerify } = require('jose');
 
-export const verifyUserToken = async (token) => {
+const verifyUserToken = async (token) => {
     if (!token) {
         console.error('No token provided');
         return null;
@@ -31,3 +31,6 @@ export const verifyUserToken = async (token) => {
 
     return null;
 };
+
+
+module.exports = verifyUserToken;

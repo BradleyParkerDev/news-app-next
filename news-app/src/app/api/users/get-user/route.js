@@ -1,4 +1,6 @@
 const {NextResponse} = require('next/server')
+const { mongooseConnect } = require("@/lib/mongoose") ;
+
 const User = require('@/lib/models/Users')
 
 export const GET = async (request) =>{
