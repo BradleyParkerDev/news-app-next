@@ -23,7 +23,9 @@ const initalState = {
 const userReducer = (state, action) => {
     switch(action.type) {
         case 'LOGIN':
-            setLocalStorageData('user',action.payload)
+            if (typeof window !== "undefined") {
+                setLocalStorageData('user', action.payload);
+            }
             return {...action.payload, userLoading: false}
         case 'FETCH_USER_DATA': 
             return {...action.payload, userLoading: false}     

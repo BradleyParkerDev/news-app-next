@@ -8,18 +8,22 @@ const verifyRefreshToken = require('./verifyRefreshToken');
 
 const checkUserRefreshTokens = async(oldRefreshToken, NextResponse) =>{
 
+    await mongooseConnect();
 
     const { decoded, userData } = await verifyRefreshToken(oldRefreshToken);
-    console.log('decoded: ', decoded)
-    console.log('userData: ', userData)
-    await mongooseConnect();
+    const id = userData.userId
+    console.log('decoded in checkUserRefreshTokens: ', decoded)
+    console.log('userData in checkUserRefreshTokens: ', userData)
     // Find the user by their ID
+
+    console.log('userId in checkUserRefreshTokens: ', id)
+
     const foundUser = await User.findOne({ id: userData.userId });
     if (!foundUser) {
         return NextResponse.status(404).json({ success: false, message: 'User not found' });
     }
 
-
+    console.log('foundUser: ',foundUser)
 
     // Check if the provided refresh token exists in the user's refreshTokens array
     const refreshTokenIndex = foundUser.refreshTokens.findIndex(token => token === oldRefreshToken);
@@ -35,7 +39,7 @@ const checkUserRefreshTokens = async(oldRefreshToken, NextResponse) =>{
 
 
     // Generate new access and refresh tokens
-    const { accessToken, refreshToken: newRefreshToken } = generateUserTokens(userData, decoded.exp);
+    const { accessToken, refreshToken: newRefreshToken } = await generateUserTokens(userData, decoded.exp);
 
 
     // Add the new refresh token to the refreshTokens array
@@ -43,8 +47,8 @@ const checkUserRefreshTokens = async(oldRefreshToken, NextResponse) =>{
     await foundUser.save();
 
 
-    const refreshTokenExpiration = getTokenExpiration(newRefreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
-    const accessTokenExpiration = getTokenExpiration(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY)
+    const refreshTokenExpiration = await getTokenExpiration(newRefreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
+    const accessTokenExpiration = await getTokenExpiration(accessToken, process.env.ACCESS_TOKEN_SECRET_KEY)
 
     return {
         newRefreshToken,

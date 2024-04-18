@@ -5,6 +5,7 @@ export const POST = async (req) =>{
     const requestBody = await req.json();
     const oldRefreshToken = requestBody.refreshToken;
 
+    console.log('oldeRefreshToken: ', oldRefreshToken)
     if (oldRefreshToken) {
         try {
             const {

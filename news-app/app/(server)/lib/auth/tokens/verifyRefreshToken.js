@@ -9,7 +9,7 @@ const verifyRefreshToken = async (refreshToken) => {
 
         // Verify the token
         const { payload } = await jwtVerify(refreshToken, encodedKey);
-
+        console.log('payload:', payload)
         // Extract user data from the decoded payload
         const userData = {
             date: new Date(),
