@@ -1,9 +1,9 @@
-"use client";
-import React, { useContext } from 'react';
+"use client"; // This line marks the component for client-side execution
+
+import React, { useContext, useEffect, useState } from 'react';
 import { NewsContext } from '@client/context/NewsContext';
 
-
-const Home = (props) => {
+const Home = () => {
     const { state: news } = useContext(NewsContext);
     const { topHeadlines, categories } = news;
 
@@ -21,7 +21,6 @@ const Home = (props) => {
 
     return (
         <div>
-
             <h1>Top Headlines</h1>
             {topHeadlines.loadingTopHeadlines ? (
                 <p>Loading Top Headlines...</p>
@@ -45,6 +44,3 @@ const Home = (props) => {
 };
 
 export default Home;
-
-
-

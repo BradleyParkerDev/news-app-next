@@ -109,7 +109,9 @@
 // export default settings;
 import LoginForm from "@client/components/LoginForm/LoginForm";
 const settings = () =>{
-
+// Implementing window Check
+if (typeof window !== "undefined") {
+    // Page rendered only if window is defined
 
     return(
         <div>
@@ -117,7 +119,7 @@ const settings = () =>{
             bye
         </div>
     );
-
+}
 }
 
 export default settings;

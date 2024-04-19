@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useReducer, useEffect, useRef } from 'react';
+import React, { createContext, useReducer, useEffect } from 'react';
 import Cookies from "universal-cookie";
 import {authCheck} from '@client/lib';
 export const AuthContext = createContext();
@@ -41,14 +41,16 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(()=>{
 
+        // Implementing window Check
+        if (typeof window !== "undefined") {
+            const accessTokenFromCookies = cookies.get('accessToken');
 
-        const accessTokenFromCookies = cookies.get('accessToken');
+            const user = localStorage.getItem('user')
+            if(state.accessToken  === '' && user ){
 
-        const user = localStorage.getItem('user')
-        if(state.accessToken  === '' && user ){
-
-            dispatch({type:'SET_ACCESS_TOKEN', accessTokenFromCookies})
-            authCheck(state, dispatch);
+                dispatch({type:'SET_ACCESS_TOKEN', accessTokenFromCookies})
+                authCheck(state, dispatch);
+            }
         }
 
     },[state.accessToken])

@@ -47,28 +47,31 @@ export const UserProvider = ({ children }) => {
 
 
     useEffect(() => {
-        const setUserData = async () => {
-            if(accessToken){
-                try {
-                    const user = await fetchUserData();
-                    if (user) {
-                        dispatch({ type: 'FETCH_USER_DATA', payload: user });
-                    }                                       
+        // Implementing window Check
+        if (typeof window !== "undefined") {
+            const setUserData = async () => {
+                if(accessToken){
+                    try {
+                        const user = await fetchUserData();
+                        if (user) {
+                            dispatch({ type: 'FETCH_USER_DATA', payload: user });
+                        }                                       
+            
+                    } catch (error) {
+                        console.error('Error setting user data:', error);
+                    }   
+                    
+                    if(isAuth){
+                        console.log(`isAuth: ${isAuth}`)
+                    }                
+                }
+
+
+
+            };
         
-                } catch (error) {
-                    console.error('Error setting user data:', error);
-                }   
-                
-                if(isAuth){
-                    console.log(`isAuth: ${isAuth}`)
-                }                
-            }
-
-
-
-        };
-    
-        setUserData();
+            setUserData();
+        }
         
 
 
@@ -77,7 +80,7 @@ export const UserProvider = ({ children }) => {
 
     return (
         <UserContext.Provider value={{state, dispatch }}>
-        {children}
+            {children}
         </UserContext.Provider>
     );
 };
