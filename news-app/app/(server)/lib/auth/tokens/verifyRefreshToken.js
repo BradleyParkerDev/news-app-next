@@ -9,7 +9,7 @@ const verifyRefreshToken = async (refreshToken) => {
 
         // Verify the token
         const { payload } = await jwtVerify(refreshToken, encodedKey);
-        console.log('payload:', payload)
+        // console.log('payload:', payload)
         // Extract user data from the decoded payload
         const userData = {
             date: new Date(),
@@ -17,7 +17,7 @@ const verifyRefreshToken = async (refreshToken) => {
             emailAddress: payload.userData.emailAddress
         };
         
-        console.log(payload);
+        // console.log(payload);
         return { decoded: payload, userData };
 
     } catch (error) {

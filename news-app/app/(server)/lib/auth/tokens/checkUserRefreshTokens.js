@@ -12,18 +12,18 @@ const checkUserRefreshTokens = async(oldRefreshToken, NextResponse) =>{
 
     const { decoded, userData } = await verifyRefreshToken(oldRefreshToken);
     const id = userData.userId
-    console.log('decoded in checkUserRefreshTokens: ', decoded)
-    console.log('userData in checkUserRefreshTokens: ', userData)
+    // console.log('decoded in checkUserRefreshTokens: ', decoded)
+    // console.log('userData in checkUserRefreshTokens: ', userData)
     // Find the user by their ID
 
-    console.log('userId in checkUserRefreshTokens: ', id)
+    // console.log('userId in checkUserRefreshTokens: ', id)
 
     const foundUser = await User.findOne({ id: userData.userId });
     if (!foundUser) {
         return NextResponse.status(404).json({ success: false, message: 'User not found' });
     }
 
-    console.log('foundUser: ',foundUser)
+    // console.log('foundUser: ',foundUser)
 
     // Check if the provided refresh token exists in the user's refreshTokens array
     const refreshTokenIndex = foundUser.refreshTokens.findIndex(token => token === oldRefreshToken);
