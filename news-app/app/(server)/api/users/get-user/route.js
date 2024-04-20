@@ -6,7 +6,6 @@ const User = require('@server/models/Users')
 export const GET = async (request) =>{
 
     const userDataJSON = await request.headers.get('X-User-Data');
-    console.log('userDataJSON: ',userDataJSON)
     const {userData} = JSON.parse(userDataJSON);
     // console.log('userData: ',userData);
 
@@ -21,7 +20,7 @@ export const GET = async (request) =>{
             readLater: foundUser.readLater,
             lastUpdated: foundUser.lastUpdated
         }
-        console.log('user: ', user)
+        // console.log('user: ', user)
         return NextResponse.json({success: true, user: user})
     } catch (error) {
         NextResponse.json({success:false, messsage: error.toString()});
