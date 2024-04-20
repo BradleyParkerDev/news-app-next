@@ -9,9 +9,10 @@ import { jwtDecode } from "jwt-decode";
 const urlEndPoint = process.env.NEXT_PUBLIC_BASE_URL;
 const loginUser = async (userData, userDispatch, state, dispatch) => {
     console.log('logging user in...')
+    console.log(userData.emailAddress)
     try {
         const cookies = new Cookies();
-        const response = await axios.post(`${urlEndPoint}/users/login`, {
+        const response = await axios.post(`${urlEndPoint}/auth/login`, {
             emailAddress: userData.emailAddress,
             password: userData.password
         });

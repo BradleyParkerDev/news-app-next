@@ -53,6 +53,7 @@ export const UserProvider = ({ children }) => {
                 if(accessToken){
                     try {
                         const user = await fetchUserData();
+                        console.log(user)
                         if (user) {
                             dispatch({ type: 'FETCH_USER_DATA', payload: user });
                         }                                       

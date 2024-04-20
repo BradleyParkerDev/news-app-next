@@ -7,30 +7,32 @@ const urlEndPoint = process.env.NEXT_PUBLIC_BASE_URL;
 
 const fetchUserData = async () => {
     try {
-        // console.log('Checking local storage...');
-        let localUserData = getLocalStorageData('user');
+        console.log('Checking local storage...');
+        // let localUserData = getLocalStorageData('user');
+        console.log(axios.defaults.headers.common['Authorization'])
 
-        if (!localUserData) {
+        // if (!localUserData) {
             console.log('Fetching user data from the server...');
             const response = await axios.get(`${urlEndPoint}/users/get-user`);
-            const serverUserData = response.data.userData;
+            const serverUserData = await response.data.userData;
             console.log(serverUserData);
             
             setLocalStorageData('user',serverUserData)
-            return serverUserData;
-        }
+            return await serverUserData;
+        // }
 
         // console.log('Comparing local storage and server data...');
-        const response = await axios.get(`${urlEndPoint}/users/get-user`);
-        const serverUserData = response.data.userData;
+        // const response = await axios.get(`${urlEndPoint}/users/get-user`);
+        // console.log(response)
+        // const serverUserData = response.data.userData;
 
-        if (serverUserData.lastUpdated > localUserData.lastUpdated) {
-            // console.log('Server data is more recent, updating local storage...');
-            return serverUserData;
-        } else {
-            // console.log('Local storage data is up-to-date.');
-            return localUserData;
-        }
+        // if (serverUserData.lastUpdated > localUserData.lastUpdated) {
+        //     // console.log('Server data is more recent, updating local storage...');
+        //     return serverUserData;
+        // } else {
+        //     // console.log('Local storage data is up-to-date.');
+        //     return localUserData;
+        // }
     } catch (error) {
         console.log(`Error fetching user data: ${error}`);
     }

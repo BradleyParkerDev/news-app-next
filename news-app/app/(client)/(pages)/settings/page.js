@@ -1,9 +1,71 @@
 "use client";
 
-// import { useContext, useEffect, useState } from 'react';
-// import { UserContext } from '../../context/UserContext';
-// import { AuthContext } from '../../context/AuthContext';
-// import { logoutUser, fetchAccessToken, fetchUserData, deleteUser } from '../../lib';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '@client/context/UserContext';
+import { AuthContext } from '@client/context/AuthContext';
+import { logoutUser, fetchAccessToken, fetchUserData, deleteUser } from '@client/lib';
+
+import { Button } from '@client/components/ui/button';
+
+
+
+
+
+
+import LoginForm from "@client/components/LoginForm/LoginForm";
+
+const settings = () =>{
+
+
+    const { state: userState, dispatch: userDispatch } = useContext(UserContext);
+    const { state: authState, dispatch: authDispatch } = useContext(AuthContext);
+
+
+    const {id, firstName, lastName, emailAddress, userLoading, userImage} = userState;
+    const { accessToken, isAuth, authLoading } = authState;
+
+// // Implementing window Check
+// if (typeof window !== "undefined") {
+//     // Page rendered only if window is defined
+    const showUserInfo = () =>{
+
+        return(
+            <div>
+                <h1>Current User:</h1>
+                <p>Fullname: {firstName} {lastName}</p>
+                <p>Email Address: {emailAddress}</p>
+                <p>isAuth: {JSON.stringify(isAuth)}</p>
+                <p>Access Token: {JSON.stringify(accessToken)}</p>
+                <br/>
+                {/* <UpdateUserForm /> */}
+            </div>
+        )
+    }
+
+
+    const handleRefreshAccessToken = () => {
+        fetchAccessToken();
+    };
+    const handleFetchUserData = async () => {
+        const userData = await fetchUserData();
+        userDispatch({ type: 'FETCH_USER_DATA', payload: userData });
+    };
+    return(
+        <div className="pl-[200px]">
+            <LoginForm/>
+            <Button onClick={handleFetchUserData}>Fetch User Data</Button>
+            bye            
+            {userLoading === false && showUserInfo()}
+
+        </div>
+    );
+// }
+}
+
+export default settings;
+
+
+
 // import { uploadImage, updateUserData } from '../../lib';
 // import {useNavigate} from 'react-router-dom';
 // import UpdateUserForm from '../../components/UpdateUserForm/UpdateUserForm';
@@ -29,9 +91,7 @@
 //         userDispatch({ type: 'FETCH_USER_DATA', payload: userData });
 //     };
 
-//     const handleRefreshAccessToken = () => {
-//         fetchAccessToken();
-//     };
+
 
 //     const handleDeleteUser = () => {
 
@@ -107,19 +167,3 @@
 // };
 
 // export default settings;
-import LoginForm from "@client/components/LoginForm/LoginForm";
-const settings = () =>{
-// Implementing window Check
-if (typeof window !== "undefined") {
-    // Page rendered only if window is defined
-
-    return(
-        <div>
-            <LoginForm/>
-            bye
-        </div>
-    );
-}
-}
-
-export default settings;

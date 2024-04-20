@@ -17,8 +17,8 @@ const generateUserTokens = async (userData, oldRefreshTokenExp) => {
 
 
     // const accessTokenExp = Math.floor(Date.now() / 1000) + 15; // 15 seconds
-    const accessTokenExp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 minutes
-    // const accessTokenExp = Math.floor(Date.now() / 1000) + 60; // 1 minute
+    // const accessTokenExp = Math.floor(Date.now() / 1000) + 15 * 60; // 15 minutes
+    const accessTokenExp = Math.floor(Date.now() / 1000) + 60; // 1 minute
 
     // Prepare keys
     const accessTokenSecretKey = encoder.encode(process.env.ACCESS_TOKEN_SECRET_KEY);

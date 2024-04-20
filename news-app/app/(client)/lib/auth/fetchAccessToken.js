@@ -43,7 +43,7 @@ const fetchAccessToken = async () => {
 
             try {
                 console.log('Access token not found in cookies. Refreshing...');
-                const response = await axios.post(`${urlEndPoint}/users/refresh-access-token`, { refreshToken });
+                const response = await axios.post(`${urlEndPoint}/auth/refresh-access-token`, { refreshToken });
                 accessToken = response.data.accessToken;
                 refreshToken = response.data.newRefreshToken;
 

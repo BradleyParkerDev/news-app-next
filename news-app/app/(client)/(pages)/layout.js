@@ -23,7 +23,9 @@ export default function RootLayout({ children }) {
 				<AuthProvider>
 					<UserProvider>
 						<NewsProvider>
+							
 							{children}
+
 						</NewsProvider>
 					</UserProvider>
 				</AuthProvider>

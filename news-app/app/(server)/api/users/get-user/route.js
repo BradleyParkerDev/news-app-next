@@ -21,6 +21,7 @@ export const GET = async (request) =>{
             following: foundUser.following,
             readLater: foundUser.readLater
         }
+        console.log(user)
         return NextResponse.json({success: true, user: user})
     } catch (error) {
         NextResponse.json({success:false, messsage: error.toString()});

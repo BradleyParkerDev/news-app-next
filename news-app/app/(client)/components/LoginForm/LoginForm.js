@@ -1,86 +1,94 @@
-"use client"
-import { useState } from 'react';
+// "use client"
+import React from 'react'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { loginUser } from '@client/lib'
+
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import {UserContext} from "../../context/UserContext"
+
+
+import { Button } from "@client/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@client/components/ui/form"
+import { Input } from "@client/components/ui/input"
+
 
 const LoginForm = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const { dispatch: userDispatch} = useContext(UserContext);
+    const { state,  dispatch} = useContext(AuthContext);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+const formSchema = z.object({
+    emailAddress: z.string().min(2,{message:'Email address must be atleast 2 characters long.'}).max(50),
+    password: z.string().min(3,{message:'Password must be atleast 3 characters long.'}).max(8)
+  })
+// Define your form
+const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      emailAddress: "",
+      password: ""
+    },
+  });
+// Define a submit handler
+function onSubmit(formData) {
+    // Do something with the form formData.
+    console.log("formData:", formData);
+    loginUser(formData, userDispatch , state , dispatch); // Corrected userDispatch argument
 
-        // Example: Post request to server
-        const loginResponse = await fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
-
-        const loginData = await loginResponse.json();
-
-        if (loginResponse.ok) {
-            console.log('Login Successful:', loginData);
-            // Handle successful login here (e.g., redirecting user)
-        } else {
-            console.error('Login Failed:', loginData);
-            // Handle errors here
-        }
-    };
-
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-                <h2 className="text-2xl font-bold mb-6 text-gray-900">Login</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                            Username
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            required
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            placeholder="**********"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <button
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            type="submit"
-                        >
-                            Sign In
-                        </button>
-                        <a
-                            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                            href="#"
-                        >
-                            Forgot Password?
-                        </a>
-                    </div>
-                </form>
-            </div>
+  }
+    return(
+        <div className='w-[400px]' >
+            <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                control={form.control}
+                name="emailAddress"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Email Address</FormLabel>
+                    <FormControl>
+                        <Input placeholder="Email" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                        This is your public display name.
+                    </FormDescription>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                        <Input placeholder="password" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                        password
+                    </FormDescription>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+                <Button type="submit">Submit</Button>
+            </form>
+            </Form>
         </div>
     );
-};
+}
 
 export default LoginForm;
+
+

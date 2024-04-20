@@ -16,7 +16,7 @@ const authCountdown = async (state, dispatch, accessToken) => {
 		accessTokenExp -= 1000;
 		let seconds = accessTokenExp / 1000;
 		if (Number.isInteger(seconds) && seconds > 0) {
-		// console.log(`Access token expires in ${seconds} seconds`);
+		console.log(`Access token expires in ${seconds} seconds`);
 		if (state.abortCountdown) {
 			console.log('abort')
 			seconds = 0;

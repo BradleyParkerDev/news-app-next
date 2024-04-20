@@ -8,14 +8,14 @@ const NavBar = () => {
     <nav>
       <ul>
         <li>
-          {/* <Link href="/app/page">
-            <a>Home</a>
-          </Link> */}
+          <Link href="/">
+            Home
+          </Link>
         </li>
         <li>
-          {/* <Link href="/settings">
-            <a>Settings</a>
-          </Link> */}
+          <Link href="/settings">
+            Settings
+          </Link>
         </li>
       </ul>
     </nav>
