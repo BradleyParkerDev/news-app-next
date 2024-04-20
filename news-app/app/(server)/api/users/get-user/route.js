@@ -8,7 +8,7 @@ export const GET = async (request) =>{
     const userDataJSON = await request.headers.get('X-User-Data');
     console.log('userDataJSON: ',userDataJSON)
     const {userData} = JSON.parse(userDataJSON);
-    console.log('userData: ',userData);
+    // console.log('userData: ',userData);
 
     try {
         const foundUser = await User.findOne({id: userData.userId})
@@ -18,10 +18,10 @@ export const GET = async (request) =>{
             firstName: foundUser.firstName,
             lastName: foundUser.lastName,
             userImage: foundUser.userImage,
-            following: foundUser.following,
-            readLater: foundUser.readLater
+            readLater: foundUser.readLater,
+            lastUpdated: foundUser.lastUpdated
         }
-        console.log(user)
+        console.log('user: ', user)
         return NextResponse.json({success: true, user: user})
     } catch (error) {
         NextResponse.json({success:false, messsage: error.toString()});

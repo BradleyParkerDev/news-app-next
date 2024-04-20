@@ -8,14 +8,14 @@ export const middleware = async (request) => {
         const bearerToken = request.headers.get('Authorization');
         if (bearerToken) {
             const token = bearerToken.split(' ')[1];
-            console.log(`Token: ${token}`);
+            // console.log(`Token: ${token}`);
             const userData = await verifyUserToken(token);
         
             if (!userData) {
                 throw new Error('Invalid Token');
             }
     
-            console.log(`Token verified: `, userData);
+            // console.log(`Token verified: `, userData);
      
             
             const response = NextResponse.next();
