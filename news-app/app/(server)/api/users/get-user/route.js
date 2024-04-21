@@ -21,7 +21,7 @@ export const GET = async (request) =>{
             lastUpdated: foundUser.lastUpdated
         }
         // console.log('user: ', user)
-        return NextResponse.json({success: true, user: user})
+        return NextResponse.json({success: true, userData: user})
     } catch (error) {
         NextResponse.json({success:false, messsage: error.toString()});
     }

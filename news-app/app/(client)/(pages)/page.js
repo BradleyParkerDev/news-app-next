@@ -31,7 +31,7 @@ const Home = () => {
             <h1>Categories</h1>
             {Object.values(categories).map(category => (
                 <div key={category.name}>
-                    <h2>{category.name}</h2>
+                    <h1>{category.name}</h1>
                     {category.loadingCategory ? (
                         <p>Loading {category.name} articles...</p>
                     ) : (

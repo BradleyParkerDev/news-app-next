@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-
+import setLocalStorageData from "./setLocalStorageData";
 const fetchNews = async(newsObj,dispatch) => {
 
     if(!newsObj.query){

@@ -68,7 +68,8 @@ const initialState = {
     topHeadlines,
     categories,
     query,
-    loadingNews: true
+    loadingNews: true,
+    lastUpdated: Date.now()
 };
 
 const newsReducer = (state, action) => {
@@ -77,6 +78,10 @@ const newsReducer = (state, action) => {
             return { ...state, topHeadlines: { ...state.topHeadlines, articles: action.payload, loadingTopHeadlines: false} };
         case 'FETCH_NEWS_BY_CATEGORY':
             return { ...state, categories: { ...state.categories, [action.payload.category]: { ...state.categories[action.payload.category], articles: action.payload.articles, loadingCategory: false } } };
+        case 'SET_NEWS_IN_LOCAL_STORAGE':
+            console.log(state)
+            // setLocalStorageData('news', state)
+            return 
         case 'QUERY_NEWS_API':
             return
         case 'RESET_QUERY':
@@ -105,9 +110,10 @@ export const NewsProvider = ({ children }) => {
 
         };
         if(topHeadlines){
-            fetchData();            
+            fetchData();   
+        // dispatch({type:'SET_NEWS_IN_LOCAL_STORAGE'})
+                    
         }
-
         console.log()
         
         }

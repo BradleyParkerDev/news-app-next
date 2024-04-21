@@ -6,13 +6,16 @@ import { AuthContext } from '@client/context/AuthContext';
 import { logoutUser, fetchAccessToken, fetchUserData, deleteUser } from '@client/lib';
 
 import { Button } from '@client/components/ui/button';
-
+import { Avatar , AvatarFallback, AvatarImage } from '@client/components/ui/avatar';
 
 
 
 
 
 import LoginForm from "@client/components/LoginForm/LoginForm";
+import RegistrationForm from '@client/components/RegistrationForm/RegistrationForm';
+import UpdateForm from '@client/components/UpdateForm/UpdateForm';
+
 
 const settings = () =>{
 
@@ -23,7 +26,7 @@ const settings = () =>{
 
     const {id, firstName, lastName, emailAddress, userLoading, userImage} = userState;
     const { accessToken, isAuth, authLoading } = authState;
-
+    const [imageFile, setImageFile] = useState('');
 // // Implementing window Check
 // if (typeof window !== "undefined") {
 //     // Page rendered only if window is defined
@@ -31,6 +34,10 @@ const settings = () =>{
 
         return(
             <div>
+                <Avatar>
+                    <AvatarImage src={userImage} />
+                    <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
                 <h1>Current User:</h1>
                 <p>Fullname: {firstName} {lastName}</p>
                 <p>Email Address: {emailAddress}</p>
@@ -50,13 +57,39 @@ const settings = () =>{
         const userData = await fetchUserData();
         userDispatch({ type: 'FETCH_USER_DATA', payload: userData });
     };
+    const handleLogout = () => {
+        logoutUser(authDispatch);
+
+    };
+    const handleDeleteUser = () => {
+        deleteUser();
+        logoutUser(authDispatch);
+    };
+
     return(
         <div className="pl-[200px]">
-            <LoginForm/>
-            <Button onClick={handleFetchUserData}>Fetch User Data</Button>
-            bye            
-            {userLoading === false && showUserInfo()}
+            {isAuth  && <UpdateForm/>}
 
+            <br/>
+            {isAuth === false && <RegistrationForm/>}
+            <br/>
+            {isAuth === false && <LoginForm/>}
+            <br/>
+            <br/>
+            {isAuth  && <Button onClick={handleRefreshAccessToken}>Refresh Access Token</Button>} 
+            <br/>
+            <br/>
+
+            {isAuth  && <Button onClick={handleFetchUserData}>Fetch User Data</Button>} 
+            <br/>
+            <br/>
+            {isAuth  && <Button onClick={handleLogout}>Logout</Button>}
+            <br/>
+            <br/>
+            {isAuth  && <Button onClick={handleDeleteUser}>Delete User</Button>}
+            <br/>
+            <br/>
+            {userLoading === false && showUserInfo()}
         </div>
     );
 // }

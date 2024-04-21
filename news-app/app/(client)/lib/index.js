@@ -5,7 +5,7 @@ import 	authCheck from './auth/authCheck';
 import  fetchAccessToken  from './auth/fetchAccessToken';
 import  loginUser  from './auth/loginUser';
 import  logoutUser  from './auth/logoutUser';
-import  registerUser  from './auth/registerUser';
+import  registerUser  from './data/registerUser';
 import  setHeaderToken  from './auth/setHeaderToken';
 import  fetchUserData  from './data/fetchUserData';
 import  fetchNews  from './data/fetchNews';

@@ -14,7 +14,7 @@ const fetchUserData = async () => {
         if (!localUserData) {
             console.log('Fetching user data from the server...');
             const response = await axios.get(`${urlEndPoint}/users/get-user`);
-            const serverUserData = await response.data.user;
+            const serverUserData = await response.data.userData;
             console.log(serverUserData);
             
             setLocalStorageData('user',serverUserData)
@@ -24,7 +24,7 @@ const fetchUserData = async () => {
         console.log('Comparing local storage and server data...');
         const response = await axios.get(`${urlEndPoint}/users/get-user`);
         console.log(response)
-        const serverUserData = response.data.user;
+        const serverUserData = response.data.userData;
 
         if (serverUserData.lastUpdated > localUserData.lastUpdated) {
             // console.log('Server data is more recent, updating local storage...');

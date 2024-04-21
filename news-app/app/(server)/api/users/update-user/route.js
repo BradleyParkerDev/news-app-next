@@ -3,7 +3,7 @@ const { mongooseConnect } = require("@server/mongoose") ;
 
 const User = require('@server/models/Users')
 
-export const POST = async (request) =>{
+export const PUT = async (request) =>{
 
     const userDataJSON = await request.headers.get('X-User-Data');
     const {userData} = JSON.parse(userDataJSON);

@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 import React from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -59,9 +59,6 @@ function onSubmit(formData) {
                     <FormControl>
                         <Input placeholder="Email" {...field} />
                     </FormControl>
-                    <FormDescription>
-                        This is your public display name.
-                    </FormDescription>
                     <FormMessage />
                     </FormItem>
                 )}
@@ -75,14 +72,11 @@ function onSubmit(formData) {
                     <FormControl>
                         <Input placeholder="password" {...field} />
                     </FormControl>
-                    <FormDescription>
-                        password
-                    </FormDescription>
                     <FormMessage />
                     </FormItem>
                 )}
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Login</Button>
             </form>
             </Form>
         </div>
