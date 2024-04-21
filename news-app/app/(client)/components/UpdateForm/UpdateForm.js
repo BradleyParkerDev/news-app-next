@@ -53,7 +53,7 @@ function UpdateForm() {
         // Do something with the form formData.
         console.log("formData:", formData);
         if(imageFile){
-            uploadImage()
+            handleImageUpload()
         }
         updateUserData(formData); // Corrected userDispatch argument
 
@@ -65,7 +65,7 @@ function UpdateForm() {
         setImageFile(file);
     };
 
-    const uploadImage = async () => {
+    const handleImageUpload = async () => {
         try {
             const uploadedUrl = await uploadImage(id, imageFile);
             await updateUserData({userImage: uploadedUrl})
