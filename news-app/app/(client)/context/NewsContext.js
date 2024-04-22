@@ -96,27 +96,27 @@ export const NewsProvider = ({ children }) => {
     const {topHeadlines, categories, query} = state;
     const {business, entertainment, general, health, science, sports, technology } = categories;
     useEffect(() => {
-        // Implementing window Check
-        if (typeof window !== "undefined") {
-        const fetchData = async () => {
+        // // Implementing window Check
+        // if (typeof window !== "undefined") {
+        // const fetchData = async () => {
 
-            // Fetch Top Headlines
-            fetchNews(topHeadlines,dispatch)
+        //     // Fetch Top Headlines
+        //     fetchNews(topHeadlines,dispatch)
 
-            // Fetch news for each category
-            for (const category of Object.values(categories)) {
-                fetchNews(category, dispatch);
-            }
+        //     // Fetch news for each category
+        //     for (const category of Object.values(categories)) {
+        //         fetchNews(category, dispatch);
+        //     }
 
-        };
-        if(topHeadlines){
-            fetchData();   
-        // dispatch({type:'SET_NEWS_IN_LOCAL_STORAGE'})
+        // };
+        // if(topHeadlines){
+        //     fetchData();   
+        // // dispatch({type:'SET_NEWS_IN_LOCAL_STORAGE'})
                     
-        }
-        console.log()
+        // }
+        // console.log()
         
-        }
+        // }
 
     }, []);
     
