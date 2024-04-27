@@ -1,6 +1,6 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
 
   @layer base {
     :root {
@@ -66,6 +66,7 @@
     }
   }
 
+
   @layer base {
     * {
       @apply border-border;
@@ -74,3 +75,12 @@
       @apply   bg-background text-foreground;
     }
   }
+  
+  
+  /* styles/global.css */
+@font-face {
+  font-family: 'Bungee Shade';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../../../public/BungeeShade-Regular.ttf') format('truetype');
+}

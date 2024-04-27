@@ -28,7 +28,10 @@ const userReducer = (state, action) => {
             }
             return {...action.payload, userLoading: false}
         case 'FETCH_USER_DATA': 
-            return {...action.payload, userLoading: false}     
+            return {...action.payload, userLoading: false} 
+        case 'ADD_ARTICLE_TO_READ_LATER':
+                
+            return    
         case 'RESET_USER':
             return initalState;
         default:

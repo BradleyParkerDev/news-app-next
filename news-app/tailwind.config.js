@@ -5,18 +5,33 @@ module.exports = {
     './pages/**/*.{js,jsx}',
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
   ],
   prefix: "",
   theme: {
+    screens: {
+      "extra-sm": "280px",
+      "sm": "375px",
+      "md": "768px",
+      "tablet": "1024px",
+      "2xl": "1400px",
+    },    
     container: {
       center: true,
       padding: "2rem",
       screens: {
+        "extra-sm": "280px",
+        "sm": "375px",
+        "md": "768px",
+        "tablet": "1024px",
         "2xl": "1400px",
       },
     },
+
     extend: {
+      fontFamily: {
+        'bungee-shade': ['bungee-shade', 'regular'] // Add fallback fonts as needed
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

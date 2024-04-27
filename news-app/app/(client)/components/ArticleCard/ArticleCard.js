@@ -16,11 +16,11 @@ import {
 import { Bookmark, BookmarkCheckIcon, Share2 } from 'lucide-react';
 
 const ArticleCard = (props) => {
-	const { state: authState, dispatch: authDispatch } = useContext(AuthContext);
+	const { state: authState} = useContext(AuthContext);
 	const {isAuth} = authState;
 
-	const { state: userState, dispatch: userDispatch } = useContext(UserContext);
-    const {id, firstName, lastName, emailAddress, userLoading, userImage, readLater} = userState;
+	const { state: userState } = useContext(UserContext);
+    const {readLater} = userState;
 
 	const {article} = props;
 	const [inReadLater, setInReadLater] = useState(false)
@@ -28,20 +28,25 @@ const ArticleCard = (props) => {
 
 	// fix this function
 	const handleReadLater = async (request) =>{
-		if(request === 'add'){
-			let arr = readLater;
+        let arr = [...readLater]; // Create a copy of the readLater array to modify
+
+        if (request === 'add' && !arr.includes(article)) {	
+
 			arr.push(article)
-			console.log(arr)			
+			console.log(arr)	
+			updateUserData({readLater: arr})
+
 		}
 
 		if(request === 'remove'){
-			console.log(arr)			
 
-			let arr = readLater;
-			let position = arr.indexOf(article);
-			arr.splice(position, 1);
+            const position = arr.indexOf(article);
+            if (position > -1) {
+                arr.splice(position, 1);
+            }
 
-			console.log(arr)			
+			updateUserData({readLater: arr})
+
 		}
 
 
@@ -70,7 +75,7 @@ const ArticleCard = (props) => {
 		  </CardContent>
 		  <div className="absolute bottom-0 right-0 p-2 flex">
 			{!inReadLater && <Bookmark onClick={()=>{handleReadLater('add')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
-			{!inReadLater && <BookmarkCheckIcon onClick={()=>{handleReadLater('remove')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
+			{inReadLater && <BookmarkCheckIcon onClick={()=>{handleReadLater('remove')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
 			<Share2 className="mx-1 cursor-pointer" size={24} color="gray" />
 		  </div>
 		</Card>
