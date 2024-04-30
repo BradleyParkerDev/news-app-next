@@ -1,8 +1,9 @@
-const {validatePassword, generateUserTokens, getTokenExpiration} = require('@server/lib/auth')
+import { ref } from 'firebase/storage';
+
+const {validatePassword, generateUserTokens, getTokenExpiration, hashRefreshToken} = require('@server/lib/auth')
 const { mongooseConnect } = require("@server/mongoose") ;
 const User =  require("@server/models/Users");
 const {NextResponse} = require('next/server')
-
 
 export const POST = async (req) =>{
     const requestBody = await req.json()
@@ -46,7 +47,9 @@ export const POST = async (req) =>{
 
         // Pushing new refresh token into foundUser, for refresh token rotation
         try {
-            foundUser.refreshTokens.push(refreshToken)
+            const saltRounds = 5;
+            const hashedRefreshToken = await hashRefreshToken(refreshToken, saltRounds)
+            foundUser.refreshTokens.push(hashedRefreshToken)
             await foundUser.save()            
         } catch (error) {
             console.log(error)

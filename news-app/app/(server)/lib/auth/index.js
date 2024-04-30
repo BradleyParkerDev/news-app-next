@@ -4,7 +4,8 @@
 module.exports = {
     // hashing
     generatePasswordHash: require('./hashing/generatePasswordHash'),
-
+    hashRefreshToken: require('./hashing/hashRefreshToken'),
+    
     // tokens
     checkUserRefreshTokens: require('./tokens/checkUserRefreshTokens'),
     generateUserTokens: require('./tokens/generateUserTokens'),

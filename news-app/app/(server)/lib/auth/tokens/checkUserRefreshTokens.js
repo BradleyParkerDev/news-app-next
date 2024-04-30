@@ -3,7 +3,8 @@ const { mongooseConnect } = require("@server/mongoose") ;
 const getTokenExpiration = require('./getTokenExpiration');
 const generateUserTokens = require('./generateUserTokens');
 const verifyRefreshToken = require('./verifyRefreshToken');
-
+const hashRefreshToken = require('../hashing/hashRefreshToken')
+const bcrypt = require('bcrypt');
 
 
 const checkUserRefreshTokens = async(oldRefreshToken, NextResponse) =>{
@@ -26,7 +27,7 @@ const checkUserRefreshTokens = async(oldRefreshToken, NextResponse) =>{
     // console.log('foundUser: ',foundUser)
 
     // Check if the provided refresh token exists in the user's refreshTokens array
-    const refreshTokenIndex = foundUser.refreshTokens.findIndex(token => token === oldRefreshToken);
+    const refreshTokenIndex = foundUser.refreshTokens.findIndex(async (storedHash) => await bcrypt.compare(oldRefreshToken, storedHash));
     if (refreshTokenIndex === -1) {
         NextResponse.status(403).json({ success: false, message: 'Invalid refresh token' });
         return 
@@ -42,9 +43,21 @@ const checkUserRefreshTokens = async(oldRefreshToken, NextResponse) =>{
     const { accessToken, refreshToken: newRefreshToken } = await generateUserTokens(userData, decoded.exp);
 
 
-    // Add the new refresh token to the refreshTokens array
-    foundUser.refreshTokens.push(newRefreshToken);
-    await foundUser.save();
+    // Hash th new refresh token  and then add it to the refreshTokens array
+    try {
+        const saltRounds = 5;
+        const hashedRefreshToken = await hashRefreshToken(newRefreshToken, saltRounds)
+        foundUser.refreshTokens.push(hashedRefreshToken);
+        await foundUser.save(); 
+        
+        
+        console.log(`New Refresh Token:  ${newRefreshToken}`)
+        console.log(`Hashed Refresh Token:  ${hashedRefreshToken}`)
+
+    } catch (error) {
+       console.log(`Error hashing and storing new refresh token: ${error}`) 
+    }
+
 
 
     const refreshTokenExpiration = await getTokenExpiration(newRefreshToken, process.env.REFRESH_TOKEN_SECRET_KEY);
