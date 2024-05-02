@@ -7,9 +7,9 @@ const setLocalStorageData = (dataType,data) =>{
         localStorage.setItem('user',userString)
         return
     }
-    if(dataType === 'news'){
+    if(dataType !== 'user' && data.articles !== null){
         const newsString = JSON.stringify(data)
-        localStorage.setItem('news',newsString)
+        localStorage.setItem(`${dataType}`,newsString)
         return
     }
 

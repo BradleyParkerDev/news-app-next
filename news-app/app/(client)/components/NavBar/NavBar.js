@@ -60,7 +60,7 @@ const NavBar =  (props) => {
 
   	return (
 
-		<div className="w-screen flex">
+		<div className="w-screen flex dashed-outline">
 
 				{hiddenContent()}
 

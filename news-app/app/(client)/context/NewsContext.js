@@ -10,42 +10,49 @@ const categories = {
         name: 'business',
         country: 'us',
         articles:[],
+        lastUpdated: Date.now(),
         loadingCategory: true
     },
     entertainment: {
         name: 'entertainment',
         country: 'us',
         articles:[],
+        lastUpdated: Date.now(),
         loadingCategory: true
     },
     general: {
         name: 'general',
         country: 'us',
         articles:[],
+        lastUpdated: Date.now(),
         loadingCategory: true
     },
     health: {
         name: 'health',
         country: 'us',
         articles:[],
+        lastUpdated: Date.now(),
         loadingCategory: true
     },
     science: {
         name: 'science',
         country: 'us',
         articles:[],
+        lastUpdated: Date.now(),
         loadingCategory: true
     },
     sports: {
         name: 'sports',
         country: 'us',
         articles:[],
+        lastUpdated: Date.now(),
         loadingCategory: true
     },
     technology: {
         name: 'technology',
         country: 'us',
         articles:[],
+        lastUpdated: Date.now(),
         loadingCategory: true
     }
 };
@@ -54,14 +61,17 @@ const topHeadlines ={
     name: 'top-headlines',
     country: 'us',
     articles:[],
+    lastUpdated: Date.now(),
     loadingTopHeadlines: true
 }
 const query = {
+    name: 'query',
     endpoint:'everything',
     startDate: '',
     endDate: '',
     country:'us',
     query: '',
+    articles:[]
 }
 
 const initialState = {
@@ -69,23 +79,14 @@ const initialState = {
     categories,
     query,
     loadingNews: true,
-    lastUpdated: Date.now()
 };
 
 const newsReducer = (state, action) => {
     switch(action.type) {
         case 'FETCH_TOP_HEADLINES':
-            return { ...state, topHeadlines: { ...state.topHeadlines, articles: action.payload, loadingTopHeadlines: false} };
+            return { ...state, loadingNews:false, topHeadlines: { ...state.topHeadlines, lastUpdated: action.payload.lastUpdated ,articles: action.payload.articles, loadingTopHeadlines: false} };
         case 'FETCH_NEWS_BY_CATEGORY':
-            return { ...state, categories: { ...state.categories, [action.payload.category]: { ...state.categories[action.payload.category], articles: action.payload.articles, loadingCategory: false } } };
-        case 'SET_NEWS_IN_LOCAL_STORAGE':
-            console.log(state)
-            // setLocalStorageData('news', state)
-            return 
-        case 'QUERY_NEWS_API':
-            return
-        case 'RESET_QUERY':
-            return
+            return { ...state, loadingNews:false, categories: { ...state.categories, [action.payload.category]: { ...state.categories[action.payload.category], lastUpdated: action.payload.lastUpdated, articles: action.payload.articles, loadingCategory: false } } };
         default:
             return state;
     }
@@ -96,27 +97,26 @@ export const NewsProvider = ({ children }) => {
     const {topHeadlines, categories, query} = state;
     const {business, entertainment, general, health, science, sports, technology } = categories;
     useEffect(() => {
-        // // Implementing window Check
-        // if (typeof window !== "undefined") {
-        // const fetchData = async () => {
+        // Implementing window Check
+        if (typeof window !== "undefined") {
+        const fetchData = async () => {
 
-        //     // Fetch Top Headlines
-        //     fetchNews(topHeadlines,dispatch)
+            // Fetch Top Headlines
+            fetchNews(topHeadlines,dispatch)
 
-        //     // Fetch news for each category
-        //     for (const category of Object.values(categories)) {
-        //         fetchNews(category, dispatch);
-        //     }
+            // Fetch news for each category
+            for (const category of Object.values(categories)) {
+                fetchNews(category, dispatch);
+            }
 
-        // };
+        };
+
         // if(topHeadlines){
-        //     fetchData();   
-        // // dispatch({type:'SET_NEWS_IN_LOCAL_STORAGE'})
+            fetchData();   
                     
         // }
-        // console.log()
         
-        // }
+        }
 
     }, []);
     

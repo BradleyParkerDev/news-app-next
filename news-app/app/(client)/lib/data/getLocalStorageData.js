@@ -8,11 +8,11 @@ const getLocalStorageData = (dataType) =>{
         return userData
     }
 
-    if(dataType==='preferences'){
-        const preferences = localStorage.getItem('preferences');
-        const preferencesData = JSON.parse(preferences);
-        console.log(preferencesData); 
-        return preferencesData
+    if(dataType!=='user'){
+        const news = localStorage.getItem(`${dataType}`);
+        const newsData = JSON.parse(news);
+        console.log(newsData); 
+        return newsData
     }
 
 

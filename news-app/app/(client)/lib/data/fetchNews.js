@@ -2,15 +2,55 @@
 
 import axios from "axios";
 import setLocalStorageData from "./setLocalStorageData";
-const fetchNews = async(newsObj,dispatch) => {
+import getLocalStorageData from "./getLocalStorageData";
 
+const fetchNews = async(newsObj,dispatch, update) => {
+
+
+    // Checking local storage
+    console.log(`Checking local storage for ${newsObj.name}.`)
+    const localStorageNewsData = getLocalStorageData(newsObj.name)
+    if(localStorageNewsData !== null) {
+        const timeToUpdateNews =  (Date.now() - localStorageNewsData.lastUpdated)
+        const anHour = 3600000
+        if(timeToUpdateNews < anHour && update !== false){
+            console.log(`${newsObj.name} is up to date! Using local storage.`)
+
+            if(localStorageNewsData.name === 'top-headlines'){
+                dispatch({type:'FETCH_TOP_HEADLINES', payload: {articles:localStorageNewsData.articles , lastUpdated: Date.now()}})
+            }
+            if(localStorageNewsData.name !== 'top-headlines'){
+                dispatch({type:'FETCH_NEWS_BY_CATEGORY', payload: {category:`${localStorageNewsData.name}`, articles:localStorageNewsData.articles , lastUpdated: Date.now()}})
+
+            }
+        }
+        if(timeToUpdateNews > anHour && update !== false){
+            console.log(`${newsObj.name} needs to be updated, calling api.`)
+        }       
+    }else{
+        console.log(`Local storage is empty, calling api.`)
+    }
+
+
+
+
+    // Fetching news for non-queries--top headlines and categories.
     if(!newsObj.query){
         if(newsObj.name === 'top-headlines' && !newsObj.query){
             const url = `https://newsapi.org/v2/top-headlines?country=${newsObj.country}`
             
             try {
                 const newsResponse = await axios.get(`${url}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`);
-                dispatch({type:'FETCH_TOP_HEADLINES', payload: newsResponse.data.articles})
+                dispatch({type:'FETCH_TOP_HEADLINES', payload: {articles:newsResponse.data.articles , lastUpdated: Date.now()}})
+                
+                const newsObjectForLocalStorage ={
+                    name: 'top-headlines',
+                    country: 'us',
+                    articles:newsResponse.data.articles,
+                    lastUpdated: Date.now(),
+                }
+                setLocalStorageData(newsObjectForLocalStorage.name, newsObjectForLocalStorage)
+
                 return newsResponse.data.articles 
             } catch (error) {
                 console.error('Error fetching news:', error);
@@ -25,7 +65,17 @@ const fetchNews = async(newsObj,dispatch) => {
 
             try {
                 const newsResponse = await axios.get(`${url}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`);
-                dispatch({type:'FETCH_NEWS_BY_CATEGORY', payload: {category:`${newsObj.name}`, articles:newsResponse.data.articles}})
+                dispatch({type:'FETCH_NEWS_BY_CATEGORY', payload: {category:`${newsObj.name}`, articles:newsResponse.data.articles , lastUpdated: Date.now()}})
+
+                const newsObjectForLocalStorage = {
+                    name: `${newsObj.name}`,
+                    country: 'us',
+                    articles: newsResponse.data.articles,
+                    lastUpdated: Date.now(),
+                    loadingCategory: true
+                }
+
+                setLocalStorageData(newsObjectForLocalStorage.name, newsObjectForLocalStorage)
 
                 return newsResponse.data.articles 
             } catch (error) {
@@ -36,6 +86,7 @@ const fetchNews = async(newsObj,dispatch) => {
     }
 
 
+    // Fetches news for query
     if(newsObj.query){
         if(newsObj.endpoint === 'top-headlines'){
             const url = `https://newsapi.org/v2/top-headlines?q=${newsObj.query}`    
