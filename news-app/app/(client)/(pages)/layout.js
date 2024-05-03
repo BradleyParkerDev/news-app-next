@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
 				<AuthProvider>
 					<UserProvider>
 						<NewsProvider>
-								<div className="h-screen w-[100%] max-w-[1440px] bg-white border-black border-dashed border-[1px]">
+								<div className="h-[screen] w-[100%] max-w-[1440px] bg-white border-black border-dashed border-[1px]">
 										<NavBar />
 										{children}									
 
