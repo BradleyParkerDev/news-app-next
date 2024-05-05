@@ -1,9 +1,12 @@
+
 {
   "compilerOptions": {
     "paths": {
       "@/*": ["./app/*"],
       "@client/*": ["./app/(client)/*"],
-      "@server/*": ["./app/(server)/*"]
+      "@server/*": ["./app/(server)/*"],
+      "@redux/*": ["./redux/*"],
+
 
 
     }

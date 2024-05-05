@@ -1,5 +1,5 @@
 const { NextResponse } = require('next/server');
-const verifyUserToken = require('@server/lib/auth/tokens/verifyUserToken')
+const verifyUserToken = require('@server/lib/tokens/verifyUserToken')
 
 export const middleware = async (request) => {
 

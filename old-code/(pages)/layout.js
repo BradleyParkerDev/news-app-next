@@ -2,8 +2,8 @@ import { Inter } from "next/font/google";
 import "@client/styles/globals.css";
 
 import { Provider } from 'react-redux';
-import store from '@redux/store';
-import StoreProvider from "@redux/StoreProvider";
+import store from '../../news-app/redux/store';
+
 // import NavBar from "../components/NavBar/NavBar";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,13 +19,13 @@ export default function RootLayout({ children }) {
 
 			<body className={`flex justify-center w-[screen] h-[screen] bg-[lightblue] ${inter.className}`}>
 
-						    <StoreProvider store={store}>
+						    <Provider store={store}>
 								<div className="h-[screen] w-[100%] max-w-[1440px] bg-white border-black border-dashed border-[1px]">
 										{/* <NavBar /> */}
 										{children}									
 
 								</div>								
-							</StoreProvider>
+							</Provider>
 
 
 			</body>						

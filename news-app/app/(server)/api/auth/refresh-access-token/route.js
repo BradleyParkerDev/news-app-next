@@ -1,4 +1,4 @@
-const { checkUserRefreshTokens } = require('@server/lib/auth');
+const { checkUserRefreshTokens } = require('@server/lib');
 const {NextResponse} = require('next/server')
 
 export const POST = async (req) =>{
