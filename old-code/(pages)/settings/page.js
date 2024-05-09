@@ -3,15 +3,7 @@
 
 
 "use client";
-import React from 'react'
 
-const Settings = () => {
-    return (
-    <div>Settings</div>
-    )
-}
-
-export default Settings
 // import { useContext, useEffect, useState } from 'react';
 // import { UserContext } from '@client/context/UserContext';
 // import { AuthContext } from '@client/context/AuthContext';
