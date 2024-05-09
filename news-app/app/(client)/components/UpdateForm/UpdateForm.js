@@ -1,11 +1,11 @@
 "use client"
-import  { React, useContext, useState } from 'react'
+import  { React, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { updateUserData } from '@client/lib'
 import {uploadImage} from '@client/lib'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Button } from "@client/components/ui/button"
 import {
   Form,
@@ -20,13 +20,12 @@ import { Input } from "@client/components/ui/input"
 
 
 function UpdateForm() {
-    const dispatch = useDispatch()
 
 
     const user = useSelector((state) => state.user)
 
 
-    const {id, firstName, lastName, emailAddress, userLoading, userImage} = user;
+    const {id} = user;
     const [imageFile, setImageFile] = useState('');
 
     const formSchema = z.object({
@@ -66,6 +65,7 @@ function UpdateForm() {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         setImageFile(file);
+        console.log(imageFile)
     };
 
     const handleImageUpload = async () => {

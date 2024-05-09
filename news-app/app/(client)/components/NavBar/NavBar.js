@@ -53,18 +53,15 @@ const NavBar =  (props) => {
 
 	},[])
 
-	useEffect(()=>{
-		authCheck(dispatch, auth)
 
-	
-
-
-
-	},[auth.accessToken])
 
 	useEffect(()=>{
+		// Authentication check
+		if(!auth.accessToken){
+			authCheck(dispatch, auth)
+		}
 
-		
+		// Fetch user data
         if (typeof window !== "undefined") {
             const fetchData = async () => {
                 if(auth.accessToken){
