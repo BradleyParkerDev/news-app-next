@@ -10,7 +10,7 @@ const authCountdown = async (dispatch, auth, accessToken) => {
 	if (auth.authCountdown === false && accessToken) {
 
 
-		dispatch(setAuthCountdown({ payload: true }));
+		dispatch(setAuthCountdown({ authCountdown: true }));
 
 		const decodedAccessToken = jwtDecode(accessToken);
 		let accessTokenExp = (decodedAccessToken.exp - decodedAccessToken.iat) * 1000;
@@ -24,11 +24,11 @@ const authCountdown = async (dispatch, auth, accessToken) => {
 			let seconds = accessTokenExp / 1000;
 			if (Number.isInteger(seconds) && seconds > 0) {
 			console.log(`Access token expires in ${seconds} seconds`);
-			if (state.abortCountdown) {
+			if (auth.abortCountdown) {
 				console.log('abort')
 				seconds = 0;
 				clearInterval(intervalId);
-				dispatch(setAuthCountdown({ payload: false })); // Reset the countdown state
+				dispatch(setAuthCountdown({ authCountdown: false })); // Reset the countdown state
 				return;
 			}
 			}
@@ -36,14 +36,14 @@ const authCountdown = async (dispatch, auth, accessToken) => {
 			if (accessTokenExp <= 0) {
 			clearInterval(intervalId);
 			console.log('Access token has expired!');
-			dispatch(setAccessToken({payload: '' }));
+			dispatch(setAccessToken({accessToken: '' }));
 			}
 		};
 
 		// Start the countdown
 		intervalId = setInterval(updateCountdown, 1000);
 
-		dispatch(setAuthCountdown({ payload: false }));
+		dispatch(setAuthCountdown({ authCountdown: false }));
 
 	} else {
 		console.log('authCountdown currently running...');

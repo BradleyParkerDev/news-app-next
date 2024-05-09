@@ -10,8 +10,8 @@ const authCheck = async (dispatch, auth) => {
         const accessToken = await fetchAccessToken()
 
         if(accessToken){
-            dispatch(setAuthenticated({payload:true}))
-            dispatch(setAccessToken({payload: accessToken}))
+            dispatch(setAuthenticated({isAuth: true}))
+            dispatch(setAccessToken({accessToken: accessToken}))
         }
         authCountdown(dispatch,auth, accessToken)
     } catch (error) {

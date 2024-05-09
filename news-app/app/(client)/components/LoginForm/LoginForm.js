@@ -7,12 +7,9 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { loginUser } from '@client/lib'
 
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import {UserContext} from "../../context/UserContext"
+
 import { useSelector, useDispatch } from 'react-redux'
 
-import authSlice from '@redux/authSlice'
 
 import { Button } from "@client/components/ui/button"
 import {
@@ -30,6 +27,9 @@ import { Input } from "@client/components/ui/input"
 const LoginForm = () => {
     const dispatch = useDispatch();
 
+  	const news = useSelector((state) => state.news)
+	const auth = useSelector((state) => state.auth)
+	const user = useSelector((state) => state.user)
 
 const formSchema = z.object({
     emailAddress: z.string().min(2,{message:'Email address must be atleast 2 characters long.'}).max(50),

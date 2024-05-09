@@ -14,14 +14,14 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setAuthenticated: (state, action) => {
-            state.isAuth = action.payload;
+            state.isAuth = action.payload.isAuth;
             state.authLoading = false;
         },
         setAccessToken: (state, action) => {
-            state.accessToken = action.payload;
+            state.accessToken = action.payload.accessToken;
         },
         setAuthCountdown: (state, action) => {
-            state.authCountdown = action.payload;
+            state.authCountdown = action.payload.authCountdown;
         },
         abortAuthCountdown: (state, action) => {
             state.abortCountdown = action.payload;

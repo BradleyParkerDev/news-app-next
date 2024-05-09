@@ -83,22 +83,22 @@ const newsSlice = createSlice({
     initialState,
     reducers: {
         setNews: (state, action) => {
-            if(action.type === 'top-headlines'){
-                return { ...state, loadingNews:false, topHeadlines: { ...state.topHeadlines, lastUpdated: action.payload.lastUpdated ,articles: action.payload.articles, loadingTopHeadlines: false} };
+            if(action.payload.type === 'top-headlines'){
+                return { ...state, loadingNews:false, topHeadlines: { ...state.topHeadlines, lastUpdated: action.payload.news.lastUpdated ,articles: action.payload.news.articles, loadingTopHeadlines: false} };
 
             }
-            if(action.type === 'category'){
-                return { ...state, loadingNews:false, topHeadlines: { ...state.topHeadlines, lastUpdated: action.payload.lastUpdated ,articles: action.payload.articles, loadingTopHeadlines: false} };
+            if(action.payload.type === 'category'){
+                return { ...state, loadingNews:false, categories: { ...state.categories, [action.payload.news.category]: { ...state.categories[action.payload.news.category], lastUpdated: action.payload.news.lastUpdated, articles: action.payload.news.articles, loadingCategory: false } } };
             }
         },
         setSelectedCategory: (state, action) => {
-            state.selectedCategory = action.payload;
+            state.selectedCategory = action.payload.news;
         },
         setIsLoading: (state, action) => {
-            state.isLoading = action.payload;
+            state.isLoading = action.payload.news;
         },
         setError: (state, action) => {
-            state.error = action.payload;
+            state.error = action.payload.news;
         },
     },
 });

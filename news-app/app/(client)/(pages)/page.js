@@ -2,23 +2,19 @@
 
 
 import React, { useEffect, useState } from 'react';
-import newsSlice from '@redux/newsSlice';
-import authSlice from '@redux/authSlice';
-import userSlice from '@redux/userSlice';
+;
 
 import ArticleCard from '@client/components/ArticleCard/ArticleCard';
 import { Button } from '../components/ui/button';
-import { useDispatch , useSelector} from 'react-redux';
-import { authCheck, fetchNews } from '../lib';
+import { useSelector} from 'react-redux';
 const Home = () => {
 
 
 	const news = useSelector((state) => state.news)
-	const auth = useSelector((state) => state.auth)
-	const user = useSelector((state) => state.user)
 
 
-	console.log(news)
+
+	// console.log(news)
     const { topHeadlines, categories } = news;
 
 

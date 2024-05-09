@@ -16,10 +16,10 @@ const fetchNews = async(dispatch, newsObj, update) => {
             console.log(`${newsObj.name} is up to date! Using local storage.`)
 
             if(localStorageNewsData.name === 'top-headlines'){
-                dispatch(setNews({type:'top-headlines', payload: {articles:localStorageNewsData.articles , lastUpdated: Date.now()}}))
+                dispatch(setNews({type:'top-headlines', news: {articles:localStorageNewsData.articles , lastUpdated: Date.now()}}))
             }
             if(localStorageNewsData.name !== 'top-headlines'){
-                dispatch(setNews({type:'category', payload: {category:`${localStorageNewsData.name}`, articles:localStorageNewsData.articles , lastUpdated: Date.now()}}))
+                dispatch(setNews({type:'category', news: {category:`${localStorageNewsData.name}`, articles:localStorageNewsData.articles , lastUpdated: Date.now()}}))
 
             }
         }
@@ -40,7 +40,7 @@ const fetchNews = async(dispatch, newsObj, update) => {
             
             try {
                 const newsResponse = await axios.get(`${url}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`);
-                dispatch(setNews({type:'top-headlines', payload: {articles:newsResponse.data.articles , lastUpdated: Date.now()}}))
+                dispatch(setNews({type:'top-headlines', news: {articles:newsResponse.data.articles , lastUpdated: Date.now()}}))
                 
                 const newsObjectForLocalStorage ={
                     name: 'top-headlines',
@@ -64,7 +64,7 @@ const fetchNews = async(dispatch, newsObj, update) => {
 
             try {
                 const newsResponse = await axios.get(`${url}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`);
-                dispatch(setNews({type:'category', payload: {category:`${newsObj.name}`, articles:newsResponse.data.articles , lastUpdated: Date.now()}}))
+                dispatch(setNews({type:'category', news: {category:`${newsObj.name}`, articles:newsResponse.data.articles , lastUpdated: Date.now()}}))
 
                 const newsObjectForLocalStorage = {
                     name: `${newsObj.name}`,

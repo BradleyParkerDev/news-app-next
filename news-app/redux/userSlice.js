@@ -17,8 +17,10 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setUserData: (action) => {
-            return { ...action.payload, userLoading: false };
+        setUserData: (state, action) => {
+
+            console.log(action.payload.user)
+            return { ...action.payload.user, userLoading: false };
         },
         addRemoveReadLaterArticle: (state, action) => {
             if(action.type === 'add'){

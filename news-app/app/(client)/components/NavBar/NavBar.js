@@ -1,8 +1,6 @@
 "use client";
 
-import newsSlice from '@redux/newsSlice';
-import authSlice from '@redux/authSlice';
-import userSlice, { setUserData } from '@redux/userSlice';
+import { setUserData } from '@redux/userSlice';
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserData, fetchNews, authCheck } from "@client/lib";
 
@@ -24,41 +22,57 @@ const NavBar =  (props) => {
 
 	const [sideNav, setSideNav] = useState({isOpen:false,width:'0px'})
 
-	console.log(news)
     const { topHeadlines, categories } = news;
+
+
+	// Fetch news once with useEffect
+	useEffect(()=>{
+
+
+
+		// // Implementing window Check
+		// if (typeof window !== "undefined") {
+		// const fetchData = async () => {
+
+		// 	// Fetch Top Headlines
+		// 	fetchNews(dispatch, topHeadlines)
+
+		// 	// Fetch news for each category
+		// 	for (const category of Object.values(categories)) {
+		// 		fetchNews(dispatch, category);
+		// 	}
+
+		// };
+
+		// // if(topHeadlines){
+		// 	fetchData();   
+					
+		// // }
+		
+		// }
+
+	},[])
 
 	useEffect(()=>{
 		authCheck(dispatch, auth)
 
-		// Implementing window Check
-		if (typeof window !== "undefined") {
-		const fetchData = async () => {
+	
 
-			// Fetch Top Headlines
-			fetchNews(dispatch, topHeadlines)
 
-			// Fetch news for each category
-			for (const category of Object.values(categories)) {
-				fetchNews(dispatch, category);
-			}
 
-		};
+	},[auth.accessToken])
 
-		// if(topHeadlines){
-			fetchData();   
-					
-		// }
-		
-		}
+	useEffect(()=>{
+
 		
         if (typeof window !== "undefined") {
-            const setUserData = async () => {
+            const fetchData = async () => {
                 if(auth.accessToken){
                     try {
                         const user = await fetchUserData();
                         console.log(user)
                         if (user) {
-                            dispatch(setUserData({ payload: user }));
+                            dispatch(setUserData({ user:user }));
                         }                                       
             
                     } catch (error) {
@@ -74,12 +88,12 @@ const NavBar =  (props) => {
 
             };
         
-            setUserData();
+            fetchData();
         }
 
 
 
-	},[auth])
+	},[auth.accessToken])
 
 	const handleSideNav =  (request) =>{
 		if(request === 'open'){
@@ -107,11 +121,11 @@ const NavBar =  (props) => {
 
 				</div>
 				<Link href="/">
-							<p>Home</p>
-						</Link>						
-						<Link href="/settings">
-							<p>Settings</p>
-						</Link>	
+					<p>Home</p>
+				</Link>						
+				<Link href="/settings">
+					<p>Settings</p>
+				</Link>	
 
 
             </div>
