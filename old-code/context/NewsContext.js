@@ -102,11 +102,11 @@ export const NewsProvider = ({ children }) => {
         const fetchData = async () => {
 
             // Fetch Top Headlines
-            fetchNews(topHeadlines,dispatch)
+            fetchNews(topHeadlines)
 
             // Fetch news for each category
             for (const category of Object.values(categories)) {
-                fetchNews(category, dispatch);
+                fetchNews(category);
             }
 
         };
