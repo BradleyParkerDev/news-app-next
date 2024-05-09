@@ -3,9 +3,8 @@
 import axios from "axios";
 import setLocalStorageData from "./setLocalStorageData";
 import getLocalStorageData from "./getLocalStorageData";
-
-const fetchNews = async(newsObj,dispatch, update) => {
-
+import {setNews} from "@redux/newsSlice";
+const fetchNews = async(dispatch, newsObj, update) => {
 
     // Checking local storage
     console.log(`Checking local storage for ${newsObj.name}.`)
@@ -17,10 +16,10 @@ const fetchNews = async(newsObj,dispatch, update) => {
             console.log(`${newsObj.name} is up to date! Using local storage.`)
 
             if(localStorageNewsData.name === 'top-headlines'){
-                dispatch({type:'FETCH_TOP_HEADLINES', payload: {articles:localStorageNewsData.articles , lastUpdated: Date.now()}})
+                dispatch(setNews({type:'top-headlines', payload: {articles:localStorageNewsData.articles , lastUpdated: Date.now()}}))
             }
             if(localStorageNewsData.name !== 'top-headlines'){
-                dispatch({type:'FETCH_NEWS_BY_CATEGORY', payload: {category:`${localStorageNewsData.name}`, articles:localStorageNewsData.articles , lastUpdated: Date.now()}})
+                dispatch(setNews({type:'category', payload: {category:`${localStorageNewsData.name}`, articles:localStorageNewsData.articles , lastUpdated: Date.now()}}))
 
             }
         }
@@ -41,7 +40,7 @@ const fetchNews = async(newsObj,dispatch, update) => {
             
             try {
                 const newsResponse = await axios.get(`${url}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`);
-                dispatch({type:'FETCH_TOP_HEADLINES', payload: {articles:newsResponse.data.articles , lastUpdated: Date.now()}})
+                dispatch(setNews({type:'top-headlines', payload: {articles:newsResponse.data.articles , lastUpdated: Date.now()}}))
                 
                 const newsObjectForLocalStorage ={
                     name: 'top-headlines',
@@ -65,7 +64,7 @@ const fetchNews = async(newsObj,dispatch, update) => {
 
             try {
                 const newsResponse = await axios.get(`${url}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`);
-                dispatch({type:'FETCH_NEWS_BY_CATEGORY', payload: {category:`${newsObj.name}`, articles:newsResponse.data.articles , lastUpdated: Date.now()}})
+                dispatch(setNews({type:'category', payload: {category:`${newsObj.name}`, articles:newsResponse.data.articles , lastUpdated: Date.now()}}))
 
                 const newsObjectForLocalStorage = {
                     name: `${newsObj.name}`,

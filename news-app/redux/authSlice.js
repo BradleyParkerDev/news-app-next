@@ -29,6 +29,8 @@ const authSlice = createSlice({
     },
 });
 
+
+
 export const { setAuthenticated, setAccessToken, setAuthCountdown, abortAuthCountdown } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -4,7 +4,7 @@ import "@client/styles/globals.css";
 import { Provider } from 'react-redux';
 import store from '@redux/store';
 import StoreProvider from "@redux/StoreProvider";
-// import NavBar from "../components/NavBar/NavBar";
+import NavBar from "../components/NavBar/NavBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
 
 						    <StoreProvider store={store}>
 								<div className="h-[screen] w-[100%] max-w-[1440px] bg-white border-black border-dashed border-[1px]">
-										{/* <NavBar /> */}
+										<NavBar />
 										{children}									
 
 								</div>								

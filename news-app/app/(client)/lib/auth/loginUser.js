@@ -6,8 +6,16 @@ import setHeaderToken from "./setHeaderToken";
 import fetchUserData from "../data/fetchUserData";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
+import authSlice, {setAuthenticated, setAccessToken} from "@redux/authSlice";
+import { setUserData } from "@redux/userSlice";
+
 const urlEndPoint = process.env.NEXT_PUBLIC_BASE_URL;
-const loginUser = async (userData, userDispatch, state, dispatch) => {
+
+
+
+
+const loginUser = async (userData, dispatch) => {
+    
     console.log('logging user in...')
     console.log(userData.emailAddress)
     try {
@@ -31,20 +39,19 @@ const loginUser = async (userData, userDispatch, state, dispatch) => {
         cookies.set('accessToken', accessToken, { expires: new Date(Date.now() + accessExpirationTime) });
 
         
-        if (accessToken) {
+        if(accessToken) {
             setHeaderToken(accessToken);
-            dispatch({ type: 'SET_AUTHENTICATED', payload: true });
-            dispatch({ type: 'SET_ACCESS_TOKEN', payload: accessToken });
-            authCountdown(state,dispatch,accessToken)
-
+            dispatch(setAuthenticated({payload:true}))
+            dispatch(setAccessToken({payload: accessToken}))
+            authCountdown(accessToken)
         } else {
-            dispatch({ type: 'SET_AUTHENTICATED', payload: false });
+            dispatch(setAuthenticated({payload:false}))
         }
 
         const user = await fetchUserData();
 
         if (user) {
-            userDispatch({ type: 'LOGIN', payload: user });
+            dispatch(setUserData({ payload: user }));
         }
     } catch (error) {
         console.error('Error logging in user:', error);

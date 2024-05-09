@@ -2,34 +2,39 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    userId: '',
-    username: '',
-    email: '',
+    id:'',
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
     password: '',
-    userImage: '',
-    readLater: [],
-    userLoading: true,
+    userImage:'',
+    readLater: [], 
+    userLoading: true 
 };
+
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        login: (state, action) => {
+        setUserData: (action) => {
             return { ...action.payload, userLoading: false };
         },
-        fetchUserData: (state, action) => {
-            return { ...action.payload, userLoading: false };
+        addRemoveReadLaterArticle: (state, action) => {
+            if(action.type === 'add'){
+                state.readLater.push(action.payload);
+            }
+            if(action.type === 'remove'){
+
+            }            
         },
-        addArticleToReadLater: (state, action) => {
-            state.readLater.push(action.payload);
-        },
-        resetUser: (state) => {
+
+        resetUser: () => {
             return initialState;
         },
     },
 });
 
-export const { login, fetchUserData, addArticleToReadLater, resetUser } = userSlice.actions;
+export const { setUserData, addRemoveReadLaterArticle, resetUser } = userSlice.actions;
 
 export default userSlice.reducer;

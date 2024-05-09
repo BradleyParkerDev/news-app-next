@@ -83,7 +83,13 @@ const newsSlice = createSlice({
     initialState,
     reducers: {
         setNews: (state, action) => {
-            state.news = action.payload;
+            if(action.type === 'top-headlines'){
+                return { ...state, loadingNews:false, topHeadlines: { ...state.topHeadlines, lastUpdated: action.payload.lastUpdated ,articles: action.payload.articles, loadingTopHeadlines: false} };
+
+            }
+            if(action.type === 'category'){
+                return { ...state, loadingNews:false, topHeadlines: { ...state.topHeadlines, lastUpdated: action.payload.lastUpdated ,articles: action.payload.articles, loadingTopHeadlines: false} };
+            }
         },
         setSelectedCategory: (state, action) => {
             state.selectedCategory = action.payload;
@@ -97,6 +103,9 @@ const newsSlice = createSlice({
     },
 });
 
+
+
 export const { setNews, setSelectedCategory, setIsLoading, setError } = newsSlice.actions;
 
 export default newsSlice.reducer;
+
