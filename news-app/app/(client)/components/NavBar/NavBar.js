@@ -25,31 +25,31 @@ const NavBar =  (props) => {
     const { topHeadlines, categories } = news;
 
 
-	// Fetch news once with useEffect
 	useEffect(()=>{
 
 
+		// Fetch news 
 
-		// // Implementing window Check
-		// if (typeof window !== "undefined") {
-		// const fetchData = async () => {
+		// Implementing window Check
+		if (typeof window !== "undefined") {
+		const fetchData = async () => {
 
-		// 	// Fetch Top Headlines
-		// 	fetchNews(dispatch, topHeadlines)
+			// Fetch Top Headlines
+			fetchNews(dispatch, topHeadlines)
 
-		// 	// Fetch news for each category
-		// 	for (const category of Object.values(categories)) {
-		// 		fetchNews(dispatch, category);
-		// 	}
+			// Fetch news for each category
+			for (const category of Object.values(categories)) {
+				fetchNews(dispatch, category);
+			}
 
-		// };
+		};
 
-		// // if(topHeadlines){
-		// 	fetchData();   
+		// if(topHeadlines){
+			fetchData();   
 					
-		// // }
-		
 		// }
+		
+		}
 
 	},[])
 

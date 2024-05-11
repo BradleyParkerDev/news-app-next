@@ -12,6 +12,7 @@ import {
 	Card,
 	CardContent,
 	CardHeader,
+	CardTitle,
 } from "@client/components/ui/card"
 import {
 	Popover,
@@ -67,7 +68,7 @@ const ArticleCard = (props) => {
 
 
 	return (
-		<Card className="my-4 mx-2 relative" style={{ width: '300px' }}>
+		<Card className="min-w-[] max-w-[300px] h-[350px] my-4 mx-2 relative border-black border-[1px] border-solid">
 		  <div style={{ height: '140px', overflow: 'hidden' }}>
 			<img
 			  src={article.urlToImage}
@@ -75,18 +76,18 @@ const ArticleCard = (props) => {
 			  style={{ width: '100%', height: 'auto', display: 'block' }}
 			/>
 		  </div>
-		  <CardHeader 
-			title={article.title}
-			subheader={`${article.source.name} - ${article.author}`}
-		  />
-		  <CardContent>
-			<p>{article.description}</p>
-		  </CardContent>
-		  <div className="absolute bottom-0 right-0 p-2 flex">
-			{!inReadLater && <Bookmark onClick={()=>{handleReadLater('add')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
-			{inReadLater && <BookmarkCheckIcon onClick={()=>{handleReadLater('remove')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
-			<Share2 className="mx-1 cursor-pointer" size={24} color="gray" />
-		  </div>
+		  	<CardHeader className='text-[12px] pb-[8px]'>
+				<CardTitle className='text-[14px]'>{article.title}</CardTitle>
+				<p className='text-[11px] font-bold text-[#545252]'>{`${article.source.name} - ${article.author}`}</p>
+			</CardHeader> 		  
+			<CardContent  className='text-[12px]'>
+				<p>{article.description}</p>
+			</CardContent>
+			<div className="absolute bottom-0 right-0 p-2 flex">
+				{!inReadLater && <Bookmark onClick={()=>{handleReadLater('add')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
+				{inReadLater && <BookmarkCheckIcon onClick={()=>{handleReadLater('remove')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
+				<Share2 className="mx-1 cursor-pointer" size={24} color="gray" />
+			</div>
 		</Card>
 	);
 };

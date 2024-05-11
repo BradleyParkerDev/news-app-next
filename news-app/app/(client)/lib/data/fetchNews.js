@@ -39,6 +39,7 @@ const fetchNews = async(dispatch, newsObj, update) => {
             const url = `https://newsapi.org/v2/top-headlines?country=${newsObj.country}`
             
             try {
+                console.log('Fetching top headlines from news api!')
                 const newsResponse = await axios.get(`${url}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`);
                 dispatch(setNews({type:'top-headlines', news: {articles:newsResponse.data.articles , lastUpdated: Date.now()}}))
                 
