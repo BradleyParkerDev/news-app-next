@@ -45,17 +45,16 @@ const ArticleCard = (props) => {
 			arr.push(article)
 			console.log(arr)	
 			updateUserData({readLater: arr})
+			setInReadLater(true)
 
 		}
 
 		if(request === 'remove'){
 
-            const position = arr.indexOf(article);
-            if (position > -1) {
-                arr.splice(position, 1);
-            }
 
-			updateUserData({readLater: arr})
+            let filteredArray = arr.filter(item => item.url !== article.url);			
+			updateUserData({readLater: filteredArray})
+			setInReadLater(false)
 
 		}
 
@@ -63,7 +62,12 @@ const ArticleCard = (props) => {
 	}
 
     useEffect(() => {
-        setInReadLater(readLater.includes(article));
+		const isInReadLater = readLater.some(a => a.url === article.url);
+		console.log()
+        setInReadLater(isInReadLater);
+		console.log(article)
+
+		console.log(readLater[0])
     }, [isAuth, readLater, article]);
 
 
@@ -77,7 +81,9 @@ const ArticleCard = (props) => {
 			/>
 		  </div>
 		  	<CardHeader className='text-[12px] pb-[8px]'>
-				<CardTitle className='text-[14px]'>{article.title}</CardTitle>
+			  	<a href={article.url} target="_blank" rel="noopener noreferrer">
+					<CardTitle className='text-[14px]' >{article.title}</CardTitle>
+				</a>
 				<p className='text-[11px] font-bold text-[#545252]'>{`${article.source.name} - ${article.author}`}</p>
 			</CardHeader> 		  
 			<CardContent  className='text-[12px]'>
