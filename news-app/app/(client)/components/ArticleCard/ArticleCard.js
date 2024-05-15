@@ -40,7 +40,7 @@ const ArticleCard = (props) => {
 	const handleReadLater = async (request) =>{
         let arr = [...readLater]; // Create a copy of the readLater array to modify
 
-        if (request === 'add' && !arr.includes(article)) {	
+        if (request === 'add' && !inReadLater) {	
 
 			arr.push(article)
 			console.log(arr)	
@@ -61,6 +61,14 @@ const ArticleCard = (props) => {
 
 	}
 
+	const handleShare = async () =>{
+		console.log(article.url)
+	}
+
+
+
+
+
     useEffect(() => {
 		const isInReadLater = readLater.some(a => a.url === article.url);
 		console.log()
@@ -72,7 +80,7 @@ const ArticleCard = (props) => {
 
 
 	return (
-		<Card className="min-w-[] max-w-[300px] h-[350px] my-4 mx-2 relative border-black border-[1px] border-solid">
+		<Card className="w-[300px] h-[350px] my-4 mx-2 relative border-black border-[1px] border-solid">
 		  <div style={{ height: '140px', overflow: 'hidden' }}>
 			<img
 			  src={article.urlToImage}
@@ -92,7 +100,7 @@ const ArticleCard = (props) => {
 			<div className="absolute bottom-0 right-0 p-2 flex">
 				{!inReadLater && <Bookmark onClick={()=>{handleReadLater('add')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
 				{inReadLater && <BookmarkCheckIcon onClick={()=>{handleReadLater('remove')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
-				<Share2 className="mx-1 cursor-pointer" size={24} color="gray" />
+				<Share2 onClick={()=>{handleShare()}} className="mx-1 cursor-pointer" size={24} color="gray" />
 			</div>
 		</Card>
 	);

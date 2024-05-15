@@ -41,13 +41,14 @@ const Home = () => {
 
     const renderArticles = (articles) => {
         return (
-            <ul className='font-bold'>
+            <div className='flex overflow-x-scroll'>
                 {articles.map((article, index) => (
-                    <li key={index}>
-                        <a href={article.url}>{article.title}</a>
-                    </li>
+					<ArticleCard article={article}/>
+                    // <li key={index}>
+                    //     <a href={article.url}>{article.title}</a>
+                    // </li>
                 ))}
-            </ul>
+            </div>
         );
     };
 
@@ -55,6 +56,7 @@ const Home = () => {
         <div>
             <Button>Press me!</Button>
             <ArticleCard article={article} />
+
             <h1>Top Headlines</h1>
             {topHeadlines.loadingTopHeadlines ? (
                 <p>Loading Top Headlines...</p>
@@ -66,11 +68,12 @@ const Home = () => {
             {Object.values(categories).map(category => (
                 <div key={category.name}>
                     <h1>{category.name}</h1>
-                    {category.loadingCategory ? (
-                        <p>Loading {category.name} articles...</p>
-                    ) : (
-                        renderArticles(category.articles)
-                    )}
+					{category.loadingCategory ? (
+						<p>Loading {category.name} articles...</p>
+					) : (
+						renderArticles(category.articles)
+					)}						
+
                 </div>
             ))}
          </div>

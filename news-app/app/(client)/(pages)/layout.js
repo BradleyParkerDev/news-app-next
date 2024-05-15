@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 
-			<body className={`flex justify-center w-[screen] h-[screen] bg-[lightblue] ${inter.className}`}>
+			<body className={`flex justify-center w-[screen] h-[screen]  ${inter.className}`}>
 
 						    <StoreProvider store={store}>
 								<div className="h-[screen] w-[100%] max-w-[1440px] bg-white border-black border-dashed border-[1px]">
