@@ -2,7 +2,6 @@
 
 
 import React, { useState } from 'react';
-;
 
 import ArticleCard from '@client/components/ArticleCard/ArticleCard';
 import { Button } from '../components/ui/button';
@@ -41,7 +40,7 @@ const Home = () => {
 
     const renderArticles = (articles) => {
         return (
-            <div className='flex overflow-x-scroll'>
+            <div className='  border-black border-dashed border-[1px] w-[100%] h-[1000px]'>
                 {articles.map((article, index) => (
 					<ArticleCard article={article}/>
                     // <li key={index}>
@@ -54,6 +53,7 @@ const Home = () => {
 
     return (
         <div>
+			{/* <LandingPage /> */}
             <Button>Press me!</Button>
             <ArticleCard article={article} />
 
@@ -63,19 +63,6 @@ const Home = () => {
             ) : (
                 renderArticles(topHeadlines.articles)
             )}
-
-            <h1>Categories</h1>
-            {Object.values(categories).map(category => (
-                <div key={category.name}>
-                    <h1>{category.name}</h1>
-					{category.loadingCategory ? (
-						<p>Loading {category.name} articles...</p>
-					) : (
-						renderArticles(category.articles)
-					)}						
-
-                </div>
-            ))}
          </div>
     );
 };

@@ -119,6 +119,12 @@ const NavBar =  (props) => {
 				</div>
 				<Link href="/">
 					<p>Home</p>
+				</Link>	
+				<Link href="/categories">
+					<p>Explore Categories</p>
+				</Link>	
+				<Link href="/read-later">
+					<p>Read Later</p>
 				</Link>						
 				<Link href="/settings">
 					<p>Settings</p>
