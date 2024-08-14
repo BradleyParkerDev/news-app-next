@@ -88,6 +88,7 @@ const ArticleCard = (props) => {
 			  style={{ width: '100%', height: 'auto', display: 'block' }}
 			/>
 		  </div>
+		  <div className='max-h-[175px]  overflow-y-hidden'>
 		  	<CardHeader className='text-[12px] pb-[8px]'>
 			  	<a href={article.url} target="_blank" rel="noopener noreferrer">
 					<CardTitle className='text-[14px]' >{article.title}</CardTitle>
@@ -101,7 +102,9 @@ const ArticleCard = (props) => {
 				{!inReadLater && <Bookmark onClick={()=>{handleReadLater('add')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
 				{inReadLater && <BookmarkCheckIcon onClick={()=>{handleReadLater('remove')}} className="mx-1 cursor-pointer" size={24} color="gray" />}
 				<Share2 onClick={()=>{handleShare()}} className="mx-1 cursor-pointer" size={24} color="gray" />
-			</div>
+			</div>			
+		  </div>
+
 		</Card>
 	);
 };

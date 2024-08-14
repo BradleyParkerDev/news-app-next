@@ -40,29 +40,22 @@ const Home = () => {
 
     const renderArticles = (articles) => {
         return (
-            <div className='  border-black border-dashed border-[1px] w-[100%] h-[1000px]'>
-                {articles.map((article, index) => (
-					<ArticleCard article={article}/>
-                    // <li key={index}>
-                    //     <a href={article.url}>{article.title}</a>
-                    // </li>
-                ))}
-            </div>
+            articles.map((article, index) => (
+                <ArticleCard article={article}/>
+            ))
         );
     };
 
     return (
-        <div>
-			{/* <LandingPage /> */}
-            <Button>Press me!</Button>
-            <ArticleCard article={article} />
-
+        <div className='w-[screen] h-[screen]  border-black border-dashed border-[1px] '>
             <h1>Top Headlines</h1>
-            {topHeadlines.loadingTopHeadlines ? (
-                <p>Loading Top Headlines...</p>
-            ) : (
-                renderArticles(topHeadlines.articles)
-            )}
+            <div className='flex flex-wrap justify-evenly w-[screen] h-[screen]  border-black border-dashed border-[1px] '>
+                {topHeadlines.loadingTopHeadlines ? (
+                    <p>Loading Top Headlines...</p>
+                ) : (
+                    renderArticles(topHeadlines.articles)
+                )}                
+            </div>
          </div>
     );
 };

@@ -112,7 +112,7 @@ const NavBar =  (props) => {
 
 	const hiddenContent =  () =>{
         return (
-            <div style={{width: `${sideNav.width}`, transition: '0.5s'}} className="z-10 top-0 left-0 fixed h-screen bg-white border-solid border-[1px] border-r-black overflow-x-hidden ">
+            <div style={{width: `${sideNav.width}`, transition: '0.25s'}} className="z-10 top-0 left-0 fixed h-screen bg-white border-solid border-[1px] border-r-black overflow-x-hidden ">
 				<div className="flex justify-end">
 					<p onClick={() => { handleSideNav('close'); }}>close</p>
 
@@ -126,8 +126,8 @@ const NavBar =  (props) => {
 				<Link href="/read-later">
 					<p>Read Later</p>
 				</Link>						
-				<Link href="/settings">
-					<p>Settings</p>
+				<Link href="/user">
+					<p>user</p>
 				</Link>	
 
 

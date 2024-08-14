@@ -21,7 +21,7 @@ import UpdateForm from '@client/components/UpdateForm/UpdateForm';
 import { setUserData } from '@redux/userSlice';
 
 
-const Settings = () =>{
+const UserPage = () =>{
 	const dispatch = useDispatch()
 
 	const auth = useSelector((state) => state.auth)
@@ -100,7 +100,7 @@ const Settings = () =>{
 	// }
 }
 
-export default Settings;
+export default UserPage;
 
 
 

@@ -19,23 +19,18 @@ const Categories = () => {
 
     const renderArticles = (articles) => {
         return (
-            <div className='flex overflow-x-scroll'>
-                {articles.map((article, index) => (
-					<ArticleCard article={article}/>
-                    // <li key={index}>
-                    //     <a href={article.url}>{article.title}</a>
-                    // </li>
-                ))}
-            </div>
+            articles.map((article, index) => (
+                <ArticleCard article={article}/>
+            ))
         );
     };
 
     return (
-        <div>
+        <div className=''>
 			{/* <LandingPage /> */}
             <h1>Categories</h1>
             {Object.values(categories).map(category => (
-                <div key={category.name}>
+                <div style={{overflowX:"scroll"}} key={category.name} className='flex w-[10000px] overflow-x-scroll'>
                     <h1>{category.name}</h1>
 					{category.loadingCategory ? (
 						<p>Loading {category.name} articles...</p>
